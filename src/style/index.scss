@@ -1,0 +1,21 @@
+@import '~bootstrap/scss/bootstrap';
+@import './variables.scss';
+
+html,
+body {
+  color: $text-color;
+  background-color: $bg-color;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  width: 100%;
+  height: 100%;
+}
+
+.navbar-brand {
+  background: linear-gradient(90deg, $main-color, $main-light-color);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 2rem;
+}
