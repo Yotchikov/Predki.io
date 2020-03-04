@@ -1,15 +1,33 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import app from '../base';
 import '../style/forms.scss';
 
-export const SignUp = () => {
+export const SignUp = ({ history }) => {
+  const handleSignUp = useCallback(
+    async event => {
+      event.preventDefault();
+      const { email, password } = event.target.elements;
+      try {
+        await app
+          .auth()
+          .createUserWithEmailAndPassword(email.value, password.value);
+        history.push('/');
+      } catch (error) {
+        alert(error);
+      }
+    },
+    [history]
+  );
+
   return (
     <div className="form-wrapper">
-      <form className="signup" autoComplete="off">
+      <form className="signup" autoComplete="off" onSubmit={handleSignUp}>
         <div className="form-row">
           <div className="col form-group">
             <label htmlFor="inputEmail">Email</label>
             <input
               type="email"
+              name="email"
               className="form-control"
               id="inputEmail"
               placeholder="you@email.com"
@@ -20,6 +38,7 @@ export const SignUp = () => {
             <label htmlFor="inputPassword">Пароль</label>
             <input
               type="password"
+              name="password"
               className="form-control"
               id="inputPassword"
               placeholder="********"
@@ -33,7 +52,6 @@ export const SignUp = () => {
               className="form-control"
               id="confirmPassword"
               placeholder="********"
-              required
             />
           </div>
         </div>
@@ -45,7 +63,6 @@ export const SignUp = () => {
               className="form-control"
               id="inputSurname"
               placeholder="Иванов"
-              required
             />
           </div>
           <div className="col form-group">
@@ -55,7 +72,6 @@ export const SignUp = () => {
               className="form-control"
               id="inputName"
               placeholder="Иван"
-              required
             />
           </div>
           <div className="col form-group">
@@ -73,7 +89,7 @@ export const SignUp = () => {
             <label htmlFor="inputDate">Дата рождения</label>
             <div className="form-row">
               <div className="col">
-                <select className="form-control" required>
+                <select className="form-control">
                   <option value="" disabled selected>
                     День
                   </option>
@@ -111,7 +127,7 @@ export const SignUp = () => {
                 </select>
               </div>
               <div className="col">
-                <select className="form-control" required>
+                <select className="form-control">
                   <option value="" disabled selected>
                     Месяц
                   </option>
@@ -130,12 +146,7 @@ export const SignUp = () => {
                 </select>
               </div>
               <div className="col">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Год"
-                  required
-                />
+                <input type="text" className="form-control" placeholder="Год" />
               </div>
             </div>
           </div>
@@ -146,14 +157,19 @@ export const SignUp = () => {
               className="form-control"
               id="nativeCity"
               placeholder="Город"
-              required
             />
           </div>
           <div className="col-2 form-group">
             <label htmlFor="sex">Пол</label>
             <ul className="sex-choose">
               <li>
-                <input type="radio" value="0" name="sex" id="male" defaultChecked />
+                <input
+                  type="radio"
+                  value="0"
+                  name="sex"
+                  id="male"
+                  defaultChecked
+                />
                 <label className="form-check-label" htmlFor="male">
                   <i className="fa fa-mars" aria-hidden="true"></i>
                 </label>
