@@ -7,7 +7,7 @@ export const SignUp = () => {
       <form className="signup" autoComplete="off">
         <div className="form-row">
           <div className="col form-group">
-            <label for="inputEmail">Email</label>
+            <label htmlFor="inputEmail">Email</label>
             <input
               type="email"
               className="form-control"
@@ -17,7 +17,7 @@ export const SignUp = () => {
             />
           </div>
           <div className="col form-group">
-            <label for="inputPassword">Пароль</label>
+            <label htmlFor="inputPassword">Пароль</label>
             <input
               type="password"
               className="form-control"
@@ -27,7 +27,7 @@ export const SignUp = () => {
             />
           </div>
           <div className="col form-group">
-            <label for="confirmPassword">Подтвердите пароль</label>
+            <label htmlFor="confirmPassword">Подтвердите пароль</label>
             <input
               type="password"
               className="form-control"
@@ -39,7 +39,7 @@ export const SignUp = () => {
         </div>
         <div className="form-row">
           <div className="col form-group">
-            <label for="inputSurname">Фамилия</label>
+            <label htmlFor="inputSurname">Фамилия</label>
             <input
               type="text"
               className="form-control"
@@ -49,7 +49,7 @@ export const SignUp = () => {
             />
           </div>
           <div className="col form-group">
-            <label for="inputName">Имя</label>
+            <label htmlFor="inputName">Имя</label>
             <input
               type="text"
               className="form-control"
@@ -59,7 +59,7 @@ export const SignUp = () => {
             />
           </div>
           <div className="col form-group">
-            <label for="inputSecondName">Отчество</label>
+            <label htmlFor="inputSecondName">Отчество</label>
             <input
               type="text"
               className="form-control"
@@ -70,11 +70,11 @@ export const SignUp = () => {
         </div>
         <div className="form-row">
           <div className="col-6 form-group">
-            <label for="inputDate">Дата рождения</label>
+            <label htmlFor="inputDate">Дата рождения</label>
             <div className="form-row">
               <div className="col">
                 <select className="form-control" required>
-                  <option value="" selected disabled>
+                  <option value="" disabled selected>
                     День
                   </option>
                   <option>1</option>
@@ -140,7 +140,7 @@ export const SignUp = () => {
             </div>
           </div>
           <div className="col-4 form-group">
-            <label for="nativeCity">Место рождения</label>
+            <label htmlFor="nativeCity">Место рождения</label>
             <input
               type="text"
               className="form-control"
@@ -150,17 +150,17 @@ export const SignUp = () => {
             />
           </div>
           <div className="col-2 form-group">
-            <label for="sex">Пол</label>
+            <label htmlFor="sex">Пол</label>
             <ul className="sex-choose">
               <li>
-                <input type="radio" value="0" name="sex" id="male" checked />
-                <label className="form-check-label" for="male">
+                <input type="radio" value="0" name="sex" id="male" defaultChecked />
+                <label className="form-check-label" htmlFor="male">
                   <i className="fa fa-mars" aria-hidden="true"></i>
                 </label>
               </li>
               <li>
                 <input type="radio" value="1" name="sex" id="female" />
-                <label className="form-check-label" for="female">
+                <label className="form-check-label" htmlFor="female">
                   <i className="fa fa-venus" aria-hidden="true"></i>
                 </label>
               </li>
