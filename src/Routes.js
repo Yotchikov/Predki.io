@@ -7,11 +7,19 @@ import { Login } from './pages/Login';
 import { SignUp } from './pages/SignUp';
 import { Main } from './pages/Main';
 import { Add } from './pages/Add';
+import { Loading } from './pages/Loading';
 
 export const Routes = () => {
-  const { currentUser } = useContext(AuthContext);
+  const { authenticated, loading } = useContext(AuthContext);
 
-  if (!currentUser) {
+  if (loading) {
+    return (
+      <div>
+        <Loading />
+      </div>
+    )
+  }
+  if (!authenticated) {
     return (
       <div>
         <Switch>
