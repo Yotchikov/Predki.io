@@ -17,7 +17,7 @@ export const Routes = () => {
       <div>
         <Loading />
       </div>
-    )
+    );
   }
   if (!authenticated) {
     return (
@@ -33,10 +33,15 @@ export const Routes = () => {
   }
   return (
     <div>
-      <Menu />
       <Switch>
-        <Route exact path="/" component={Main} />
-        <Route exact path="/add" component={Add} />
+        <Route exact path="/">
+          <Menu currentPage={'/'} />
+          <Main />
+        </Route>
+        <Route exact path="/add">
+          <Menu currentPage={'/add'} />
+          <Add />
+        </Route>
         <Redirect to="/" />
       </Switch>
     </div>

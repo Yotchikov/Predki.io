@@ -2,15 +2,21 @@ import React from 'react';
 import app from '../base';
 import '../style/menu.scss';
 
-export const Menu = () => {
+export const Menu = ({ currentPage }) => {
+  const checkPage = page => currentPage === page;
+  console.log(currentPage);
   return (
     <div>
       <div className="menu">
-        <a href="/add">
+        <a href={checkPage('/add') ? '/' : '/add'}>
           <div className="fixed-part">
-            <ion-icon name="add-circle"></ion-icon>
+            <ion-icon
+              name={checkPage('/add') ? 'arrow-back-circle-sharp' : 'add-circle'}
+            ></ion-icon>
           </div>
-          <div className="slide-out-part">Добавить человека</div>
+          <div className="slide-out-part">
+            {checkPage('/add') ? 'Назад' : 'Добавить человека'}
+          </div>
         </a>
         <a href="/share">
           <div className="fixed-part">
