@@ -8,9 +8,10 @@ import { SignUp } from './pages/SignUp';
 import { Main } from './pages/Main';
 import { Add } from './pages/Add';
 import { Loading } from './pages/Loading';
+import { Info } from './pages/Info';
 
 export const Routes = () => {
-  const { authenticated, loading } = useContext(AuthContext);
+  const { currentUser, loading } = useContext(AuthContext);
 
   if (loading) {
     return (
@@ -19,12 +20,13 @@ export const Routes = () => {
       </div>
     );
   }
-  if (!authenticated) {
+  if (!currentUser) {
     return (
       <div>
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/info" component={Info} />
           <Redirect to="/login" />
         </Switch>
         <Navbar />

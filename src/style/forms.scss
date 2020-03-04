@@ -33,19 +33,6 @@ label {
   }
 }
 
-.btn-submit {
-  color: $text-color;
-  background-color: $main-color;
-  font-weight: 600;
-  &:hover {
-    background-color: #7428a3;
-    color: $text-color;
-  }
-  &:focus {
-    box-shadow: none;
-  }
-}
-
 select:required:invalid {
   color: #6c757d;
 }
@@ -82,6 +69,19 @@ ul.sex-choose label {
 
 ul.sex-choose input:checked + label {
   color: var(--text-color);
+}
+
+.btn-submit {
+  color: $text-color;
+  background-color: $main-color;
+  font-weight: 600;
+  &:hover {
+    background-color: #7428a3;
+    color: $text-color;
+  }
+  &:focus {
+    box-shadow: none;
+  }
 }
 
 .hint {
