@@ -44,6 +44,10 @@ export const Routes = () => {
           <Menu currentPage={'/add'} />
           <Add />
         </Route>
+        <Route exact path="/info">
+          <Menu currentPage={'/info'} />
+          <Info />
+        </Route>
         <Redirect to="/" />
       </Switch>
     </div>

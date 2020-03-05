@@ -11,7 +11,9 @@ export const Menu = ({ currentPage }) => {
         <a href={checkPage('/add') ? '/' : '/add'}>
           <div className="fixed-part">
             <ion-icon
-              name={checkPage('/add') ? 'arrow-back-circle-sharp' : 'add-circle'}
+              name={
+                checkPage('/add') ? 'arrow-back-circle-sharp' : 'add-circle'
+              }
             ></ion-icon>
           </div>
           <div className="slide-out-part">
@@ -36,11 +38,19 @@ export const Menu = ({ currentPage }) => {
           </div>
           <div className="slide-out-part">Выход</div>
         </a>
-        <a href="/info">
+        <a href={checkPage('/info') ? '/' : '/info'}>
           <div className="fixed-part">
-            <ion-icon name="information-circle-sharp"></ion-icon>
+            <ion-icon
+              name={
+                checkPage('/info')
+                  ? 'arrow-back-circle-sharp'
+                  : 'information-circle-sharp'
+              }
+            ></ion-icon>
           </div>
-          <div className="slide-out-part">Информация</div>
+          <div className="slide-out-part">
+            {checkPage('/info') ? 'Назад' : 'Информация'}
+          </div>
         </a>
         <div className="brand" href="/" onselectstart="return false">
           PREDKI.IO
