@@ -6,11 +6,28 @@ export const SignUp = ({ history }) => {
   const handleSignUp = useCallback(
     async event => {
       event.preventDefault();
-      const { email, password } = event.target.elements;
+      const {
+        email,
+        password,
+        firstName,
+        secondName,
+        lastName
+      } = event.target.elements;
       try {
         await app
           .auth()
-          .createUserWithEmailAndPassword(email.value, password.value);
+          .createUserWithEmailAndPassword(email.value, password.value)
+          .then(resp => {
+            return app
+              .firestore()
+              .collection('users')
+              .doc(resp.user.uid)
+              .set({
+                firstName: firstName.value,
+                secondName: secondName.value,
+                lastName: lastName.value
+              });
+          });
         history.push('/');
       } catch (error) {
         alert(error);
@@ -57,29 +74,32 @@ export const SignUp = ({ history }) => {
         </div>
         <div className="form-row">
           <div className="col form-group">
-            <label htmlFor="inputSurname">Фамилия</label>
+            <label htmlFor="lastName">Фамилия</label>
             <input
               type="text"
+              name="lastName"
+              id="lastName"
               className="form-control"
-              id="inputSurname"
               placeholder="Иванов"
             />
           </div>
           <div className="col form-group">
-            <label htmlFor="inputName">Имя</label>
+            <label htmlFor="firstName">Имя</label>
             <input
               type="text"
+              name="firstName"
+              id="firstName"
               className="form-control"
-              id="inputName"
               placeholder="Иван"
             />
           </div>
           <div className="col form-group">
-            <label htmlFor="inputSecondName">Отчество</label>
+            <label htmlFor="secondName">Отчество</label>
             <input
               type="text"
+              name="secondName"
+              id="secondName"
               className="form-control"
-              id="inputSecondName"
               placeholder="Иванович"
             />
           </div>
