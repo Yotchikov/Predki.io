@@ -6,31 +6,41 @@ export const SignUp = ({ history }) => {
   const handleSignUp = useCallback(
     async event => {
       event.preventDefault();
+
       const {
         email,
         password,
+        confirmPassword,
         firstName,
         secondName,
         lastName
       } = event.target.elements;
-      try {
-        await app
-          .auth()
-          .createUserWithEmailAndPassword(email.value, password.value)
-          .then(resp => {
-            return app
-              .firestore()
-              .collection('users')
-              .doc(resp.user.uid)
-              .set({
-                firstName: firstName.value,
-                secondName: secondName.value,
-                lastName: lastName.value
-              });
-          });
-        history.push('/');
-      } catch (error) {
-        alert(error);
+
+      if (password != confirmPassword) {
+        document
+          .getElementById('confirmPassword')
+          .setCustomValidity('Пароли не совпадают');
+      } else {
+        try {
+          await app
+            .auth()
+            .createUserWithEmailAndPassword(email.value, password.value)
+            .then(resp => {
+              return app
+                .firestore()
+                .collection('users')
+                .doc(resp.user.uid)
+                .set({
+                  firstName: firstName.value,
+                  secondName: secondName.value,
+                  lastName: lastName.value
+                });
+            });
+
+          history.push('/');
+        } catch (error) {
+          alert(error);
+        }
       }
     },
     [history]
@@ -66,9 +76,11 @@ export const SignUp = ({ history }) => {
             <label htmlFor="confirmPassword">Подтвердите пароль</label>
             <input
               type="password"
+              name="confirmPassword"
               className="form-control"
               id="confirmPassword"
               placeholder="********"
+              required
             />
           </div>
         </div>
