@@ -1,47 +1,93 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+const oddMonths = [
+  'Января',
+  'Марта',
+  'Мая',
+  'Июля',
+  'Августа',
+  'Октября',
+  'Декабря'
+];
+const evenMonths = ['Апреля', 'Июня', 'Сентября', 'Ноября'];
 
 export const SelectDate = () => {
+  const [day, setDay] = useState('');
+  const [month, setMonth] = useState('');
+  const [year, setYear] = useState('');
+
+  const [dayOptions, setDayOptions] = useState(
+    [...Array(31).keys()].map(i => <option key={i + 1}>{i + 1}</option>)
+  );
+
+  const handleChange = event => {
+    switch (event.target.name) {
+      case 'day':
+        setDay(event.target.value);
+        console.log(event.target.value);
+        break;
+      case 'month':
+        setMonth(event.target.value);
+        console.log(month);
+        if (event.target.value == 'Февраля') {
+          setDayOptions(
+            [...Array(29).keys()].map(i => <option key={i + 1}>{i + 1}</option>)
+          );
+        } else if (oddMonths.includes(event.target.value)) {
+          setDayOptions(
+            [...Array(31).keys()].map(i => <option key={i + 1}>{i + 1}</option>)
+          );
+        } else if (evenMonths.includes(event.target.value)) {
+          setDayOptions(
+            [...Array(30).keys()].map(i => <option key={i + 1}>{i + 1}</option>)
+          );
+        }
+        break;
+      case 'year':
+        const re = /^[0-9\b]+$/;
+
+        if (
+          (event.target.value === '' || re.test(event.target.value)) &&
+          event.target.value >= 0 &&
+          event.target.value <= 2020
+        ) {
+          setYear(event.target.value);
+        }
+        break;
+      default:
+        throw Error;
+    }
+  };
+
   return (
     <div className="form-row">
       <div className="col">
-        <select defaultValue="" className="form-control" required>
-          <option value="" disabled>День</option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
-          <option>6</option>
-          <option>7</option>
-          <option>8</option>
-          <option>9</option>
-          <option>10</option>
-          <option>11</option>
-          <option>12</option>
-          <option>13</option>
-          <option>14</option>
-          <option>15</option>
-          <option>16</option>
-          <option>17</option>
-          <option>18</option>
-          <option>19</option>
-          <option>20</option>
-          <option>21</option>
-          <option>22</option>
-          <option>23</option>
-          <option>24</option>
-          <option>25</option>
-          <option>26</option>
-          <option>27</option>
-          <option>28</option>
-          <option>29</option>
-          <option>30</option>
-          <option>31</option>
+        <select
+          defaultValue=""
+          className="form-control"
+          onChange={handleChange}
+          name="day"
+          id="day"
+          required
+        >
+          <option value="" disabled>
+            День
+          </option>
+          {dayOptions}
         </select>
       </div>
       <div className="col">
-        <select defaultValue="" className="form-control" required>
-          <option value="" disabled>Месяц</option>
+        <select
+          defaultValue=""
+          className="form-control"
+          onChange={handleChange}
+          name="month"
+          id="month"
+          required
+        >
+          <option value="" disabled>
+            Месяц
+          </option>
           <option>Января</option>
           <option>Февраля</option>
           <option>Марта</option>
@@ -57,7 +103,16 @@ export const SelectDate = () => {
         </select>
       </div>
       <div className="col">
-        <input type="text" className="form-control" placeholder="Год" />
+        <input
+          type="text"
+          className="form-control"
+          placeholder="Год"
+          name="year"
+          id="year"
+          value={year}
+          onChange={handleChange}
+          required
+        />
       </div>
     </div>
   );

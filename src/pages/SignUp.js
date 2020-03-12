@@ -118,7 +118,7 @@ export const SignUp = ({ history }) => {
           </div>
         </div>
         <div className="form-row">
-          <div className="col-6 form-group">
+          <div className="col-7 form-group">
             <label htmlFor="inputDate">Дата рождения</label>
             <SelectDate />
           </div>
@@ -131,7 +131,7 @@ export const SignUp = ({ history }) => {
               placeholder="Город"
             />
           </div>
-          <div className="col-2 form-group">
+          <div className="col-1 form-group">
             <label htmlFor="sex">Пол</label>
             <ul className="sex-choose">
               <li>
