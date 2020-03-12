@@ -23,7 +23,10 @@ export const Tree = () => {
   return (
     <div className="tree-container" onselectstart="return false">
       <div className="tree">
-        <PersonCard />
+        <div className="tree-row">
+          <PersonCard />
+          <PersonCard />
+        </div>
       </div>
     </div>
   );
