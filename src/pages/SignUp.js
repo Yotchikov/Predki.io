@@ -14,10 +14,17 @@ export const SignUp = ({ history }) => {
         confirmPassword,
         firstName,
         secondName,
-        lastName
+        lastName,
+        day,
+        month,
+        year,
+        nativeCity,
+        sex
       } = event.target.elements;
 
-      if (password !== confirmPassword) {
+      console.log(day.value, month.value, year.value);
+
+      if (password.value !== confirmPassword.value) {
         document
           .getElementById('confirmPassword')
           .setCustomValidity('Пароли не совпадают');
@@ -34,7 +41,14 @@ export const SignUp = ({ history }) => {
                 .set({
                   firstName: firstName.value,
                   secondName: secondName.value,
-                  lastName: lastName.value
+                  lastName: lastName.value,
+                  birthDate: {
+                    day: day.value,
+                    month: month.value,
+                    year: year.value
+                  },
+                  cities: [nativeCity.value],
+                  sex: sex.value
                 });
             });
 
@@ -137,7 +151,7 @@ export const SignUp = ({ history }) => {
               <li>
                 <input
                   type="radio"
-                  value="0"
+                  value="мужской"
                   name="sex"
                   id="male"
                   defaultChecked
@@ -147,7 +161,7 @@ export const SignUp = ({ history }) => {
                 </label>
               </li>
               <li>
-                <input type="radio" value="1" name="sex" id="female" />
+                <input type="radio" value="женский" name="sex" id="female" />
                 <label className="form-check-label" htmlFor="female">
                   <i className="fa fa-venus" aria-hidden="true"></i>
                 </label>
