@@ -1,0 +1,13 @@
+@import 'variables.scss';
+
+.tree-container {
+  overflow: hidden;
+  cursor: pointer;
+  height: 100%;
+  margin-left: 3rem;
+}
+
+.tree {
+  display: inline-block;
+  padding: 1rem;
+}

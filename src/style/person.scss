@@ -1,0 +1,88 @@
+@import './variables.scss';
+
+.person {
+  display: inline-block;
+  text-align: center;
+  margin: 0.5rem;
+  z-index: 200;
+}
+
+.person-body {
+  display: block;
+  background-color: $bg-light-color;
+  border-radius: 0.25rem;
+  box-shadow: 0 1px 20px 0 rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+  padding-top: 45px;
+  width: 11rem;
+}
+
+.avatar {
+  position: relative;
+  top: 50px;
+  height: 100px;
+}
+
+.person .avatar img {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  top: 0;
+  left: 0px;
+  right: 0px;
+  border-radius: 50%;
+  max-width: 100px;
+  max-height: 100px;
+  transition: 0.3s;
+  z-index: 1000;
+}
+
+.person .avatar:hover img {
+  top: -35px;
+}
+
+.person .buttons {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.person .btn-edit,
+.person .btn-trash {
+  background-color: inherit;
+  color: $text-color;
+}
+
+.person .btn-edit:hover {
+  color: $main-light-color;
+}
+
+.person .btn-trash:hover {
+  color: #dc143c;
+}
+
+.person .btn-edit:focus,
+.person .btn-trash:focus {
+  box-shadow: none;
+}
+
+.person-body {
+  color: $text-color;
+}
+
+.person-body:hover {
+  color: $text-color;
+  text-decoration: none;
+}
+
+.person-body .name {
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+.person-body .age {
+  font-size: 0.8rem;
+}

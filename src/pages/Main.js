@@ -1,5 +1,6 @@
 import React from 'react';
+import { Tree } from '../components/Tree';
 
 export const Main = () => {
-  return <h1 className="text-center">Main page</h1>;
+  return <Tree />
 };
