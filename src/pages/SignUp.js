@@ -151,7 +151,7 @@ export const SignUp = ({ history }) => {
               <li>
                 <input
                   type="radio"
-                  value="мужской"
+                  value="Мужской"
                   name="sex"
                   id="male"
                   defaultChecked
@@ -161,7 +161,7 @@ export const SignUp = ({ history }) => {
                 </label>
               </li>
               <li>
-                <input type="radio" value="женский" name="sex" id="female" />
+                <input type="radio" value="Женский" name="sex" id="female" />
                 <label className="form-check-label" htmlFor="female">
                   <i className="fa fa-venus" aria-hidden="true"></i>
                 </label>
