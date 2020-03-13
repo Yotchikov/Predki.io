@@ -70,7 +70,7 @@ export const Add = ({ history }) => {
             />
           </div>
           <div className="col-5 form-group">
-            <label htmlFor="">Фотография</label>
+            <label htmlFor="">Фотография *</label>
             <label className="form-control">
               Выбрать файл
               <input type="file" hidden />
@@ -102,8 +102,12 @@ export const Add = ({ history }) => {
         </div>
         <div className="form-group">
           <label htmlFor="">Биография</label>
-          <textarea className="form-control"></textarea>
+          <textarea
+            className="form-control"
+            placeholder="Места обучения, профессиональные интересы, интересные факты из жизни и т.д."
+          ></textarea>
         </div>
+        <small className="hint">* Данные поля необязательны к заполнению</small>
       </form>
     </div>
   );
