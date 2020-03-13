@@ -60,7 +60,7 @@ export const Add = ({ history }) => {
           </div>
         </div>
         <div className="form-row">
-          <div className="col-7 form-group">
+          <div className="col-6 form-group">
             <label htmlFor="nativeCity">Место рождения</label>
             <input
               type="text"
@@ -69,14 +69,12 @@ export const Add = ({ history }) => {
               placeholder="Город"
             />
           </div>
-          <div className="col-4 form-group">
+          <div className="col-5 form-group">
             <label htmlFor="">Фотография</label>
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="customFile" lang="ru" />
-              <label class="custom-file-label" for="customFile">
-                Выбрать файл
-              </label>
-            </div>
+            <label className="form-control">
+              Выбрать файл
+              <input type="file" hidden />
+            </label>
           </div>
           <div className="col-1 form-group">
             <label htmlFor="sex">Пол</label>
