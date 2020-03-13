@@ -107,7 +107,14 @@ export const Add = ({ history }) => {
             placeholder="Места обучения, профессиональные интересы, интересные факты из жизни и т.д."
           ></textarea>
         </div>
-        <small className="hint">* Данные поля необязательны к заполнению</small>
+        <div className="mt-4">
+          <button type="submit" className="btn btn-submit">
+            Войти
+          </button>
+          <small className="ml-3 hint">
+            * Данные поля необязательны к заполнению
+          </small>
+        </div>
       </form>
     </div>
   );
