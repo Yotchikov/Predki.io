@@ -11,7 +11,7 @@ const oddMonths = [
 ];
 const evenMonths = ['Апреля', 'Июня', 'Сентября', 'Ноября'];
 
-export const SelectDate = () => {
+export const SelectDate = ({ required, typeOfDate }) => {
   const [day, setDay] = useState('');
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
@@ -68,7 +68,7 @@ export const SelectDate = () => {
           onChange={handleChange}
           name="day"
           id="day"
-          required
+          required={required}
         >
           <option value="" disabled>
             День
@@ -83,7 +83,7 @@ export const SelectDate = () => {
           onChange={handleChange}
           name="month"
           id="month"
-          required
+          required={required}
         >
           <option value="" disabled>
             Месяц
@@ -111,7 +111,7 @@ export const SelectDate = () => {
           id="year"
           value={year}
           onChange={handleChange}
-          required
+          required={required}
         />
       </div>
     </div>

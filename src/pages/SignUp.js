@@ -108,6 +108,7 @@ export const SignUp = ({ history }) => {
               id="lastName"
               className="form-control"
               placeholder="Иванов"
+              required
             />
           </div>
           <div className="col form-group">
@@ -118,6 +119,7 @@ export const SignUp = ({ history }) => {
               id="firstName"
               className="form-control"
               placeholder="Иван"
+              required
             />
           </div>
           <div className="col form-group">
@@ -128,13 +130,14 @@ export const SignUp = ({ history }) => {
               id="secondName"
               className="form-control"
               placeholder="Иванович"
+              required
             />
           </div>
         </div>
         <div className="form-row">
           <div className="col-7 form-group">
             <label htmlFor="inputDate">Дата рождения</label>
-            <SelectDate />
+            <SelectDate required={true} />
           </div>
           <div className="col-4 form-group">
             <label htmlFor="nativeCity">Место рождения</label>
@@ -143,6 +146,7 @@ export const SignUp = ({ history }) => {
               className="form-control"
               id="nativeCity"
               placeholder="Город"
+              required
             />
           </div>
           <div className="col-1 form-group">
@@ -155,13 +159,20 @@ export const SignUp = ({ history }) => {
                   name="sex"
                   id="male"
                   defaultChecked
+                  required
                 />
                 <label className="form-check-label" htmlFor="male">
                   <i className="fa fa-mars" aria-hidden="true"></i>
                 </label>
               </li>
               <li>
-                <input type="radio" value="Женский" name="sex" id="female" />
+                <input
+                  type="radio"
+                  value="Женский"
+                  name="sex"
+                  id="female"
+                  required
+                />
                 <label className="form-check-label" htmlFor="female">
                   <i className="fa fa-venus" aria-hidden="true"></i>
                 </label>

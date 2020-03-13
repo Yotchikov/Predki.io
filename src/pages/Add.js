@@ -16,7 +16,7 @@ export const Add = ({ history }) => {
   );
   return (
     <div className="form-wrapper">
-      <form className="add" onSubmit={handleAdd}>
+      <form className="add" onSubmit={handleAdd} autoComplete="nope">
         <div className="form-row">
           <div className="col form-group">
             <label htmlFor="lastName">Фамилия</label>
