@@ -26,6 +26,7 @@ export const Add = ({ history }) => {
               id="lastName"
               className="form-control"
               placeholder="Иванов"
+              required
             />
           </div>
           <div className="col form-group">
@@ -36,10 +37,11 @@ export const Add = ({ history }) => {
               id="firstName"
               className="form-control"
               placeholder="Иван"
+              required
             />
           </div>
           <div className="col form-group">
-            <label htmlFor="secondName">Отчество</label>
+            <label htmlFor="secondName">Отчество *</label>
             <input
               type="text"
               name="secondName"
@@ -51,17 +53,17 @@ export const Add = ({ history }) => {
         </div>
         <div className="form-row">
           <div className="col-6 form-group">
-            <label htmlFor="inputDate">Дата рождения</label>
-            <SelectDate />
+            <label htmlFor="birthday">Дата рождения</label>
+            <SelectDate required={true} typeOfDate="birth" />
           </div>
           <div className="col-6 form-group">
-            <label htmlFor="inputDate">Дата смерти *</label>
-            <SelectDate />
+            <label htmlFor="deathday">Дата смерти *</label>
+            <SelectDate required={false} typeOfDate="death" />
           </div>
         </div>
         <div className="form-row">
           <div className="col-6 form-group">
-            <label htmlFor="nativeCity">Место рождения</label>
+            <label htmlFor="nativeCity">Место рождения *</label>
             <input
               type="text"
               className="form-control"
@@ -70,10 +72,10 @@ export const Add = ({ history }) => {
             />
           </div>
           <div className="col-5 form-group">
-            <label htmlFor="">Фотография *</label>
+            <label htmlFor="photo">Фотография *</label>
             <label className="form-control">
               Выбрать файл
-              <input type="file" hidden />
+              <input name="photo" type="file" hidden />
             </label>
           </div>
           <div className="col-1 form-group">
@@ -101,9 +103,10 @@ export const Add = ({ history }) => {
           </div>
         </div>
         <div className="form-group">
-          <label htmlFor="">Биография</label>
+          <label htmlFor="bio">Биография *</label>
           <textarea
             className="form-control"
+            name="bio"
             placeholder="Места обучения, профессиональные интересы, интересные факты из жизни и т.д."
           ></textarea>
         </div>

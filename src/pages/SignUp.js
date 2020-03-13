@@ -134,7 +134,7 @@ export const SignUp = ({ history }) => {
         </div>
         <div className="form-row">
           <div className="col-7 form-group">
-            <label htmlFor="inputDate">Дата рождения</label>
+            <label htmlFor="birthday">Дата рождения</label>
             <SelectDate required={true} typeOfDate="birth" />
           </div>
           <div className="col-4 form-group">
@@ -157,7 +157,6 @@ export const SignUp = ({ history }) => {
                   name="sex"
                   id="male"
                   defaultChecked
-                  required
                 />
                 <label className="form-check-label" htmlFor="male">
                   <i className="fa fa-mars" aria-hidden="true"></i>
@@ -169,7 +168,6 @@ export const SignUp = ({ history }) => {
                   value="Женский"
                   name="sex"
                   id="female"
-                  required
                 />
                 <label className="form-check-label" htmlFor="female">
                   <i className="fa fa-venus" aria-hidden="true"></i>
