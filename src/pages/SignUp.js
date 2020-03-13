@@ -15,14 +15,12 @@ export const SignUp = ({ history }) => {
         firstName,
         secondName,
         lastName,
-        day,
-        month,
-        year,
+        birthday,
+        birthmonth,
+        birthyear,
         nativeCity,
         sex
       } = event.target.elements;
-
-      console.log(day.value, month.value, year.value);
 
       if (password.value !== confirmPassword.value) {
         document
@@ -43,9 +41,9 @@ export const SignUp = ({ history }) => {
                   secondName: secondName.value,
                   lastName: lastName.value,
                   birthDate: {
-                    day: day.value,
-                    month: month.value,
-                    year: year.value
+                    day: birthday.value,
+                    month: birthmonth.value,
+                    year: birthyear.value
                   },
                   cities: [nativeCity.value],
                   sex: sex.value
@@ -137,7 +135,7 @@ export const SignUp = ({ history }) => {
         <div className="form-row">
           <div className="col-7 form-group">
             <label htmlFor="inputDate">Дата рождения</label>
-            <SelectDate required={true} />
+            <SelectDate required={true} typeOfDate="birth" />
           </div>
           <div className="col-4 form-group">
             <label htmlFor="nativeCity">Место рождения</label>

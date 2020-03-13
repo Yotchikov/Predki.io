@@ -22,11 +22,11 @@ export const SelectDate = ({ required, typeOfDate }) => {
 
   const handleChange = event => {
     switch (event.target.name) {
-      case 'day':
+      case typeOfDate + 'day':
         setDay(event.target.value);
         console.log(event.target.value);
         break;
-      case 'month':
+      case typeOfDate + 'month':
         setMonth(event.target.value);
         console.log(month);
         if (event.target.value == 'Февраля') {
@@ -43,7 +43,7 @@ export const SelectDate = ({ required, typeOfDate }) => {
           );
         }
         break;
-      case 'year':
+      case typeOfDate + 'year':
         const re = /^[0-9\b]+$/;
 
         if (
@@ -66,7 +66,7 @@ export const SelectDate = ({ required, typeOfDate }) => {
           defaultValue=""
           className="form-control"
           onChange={handleChange}
-          name="day"
+          name={typeOfDate + 'day'}
           id="day"
           required={required}
         >
@@ -81,7 +81,7 @@ export const SelectDate = ({ required, typeOfDate }) => {
           defaultValue=""
           className="form-control"
           onChange={handleChange}
-          name="month"
+          name={typeOfDate + 'month'}
           id="month"
           required={required}
         >
@@ -107,7 +107,7 @@ export const SelectDate = ({ required, typeOfDate }) => {
           type="text"
           className="form-control"
           placeholder="Год"
-          name="year"
+          name={typeOfDate + 'year'}
           id="year"
           value={year}
           onChange={handleChange}
