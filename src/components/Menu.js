@@ -52,7 +52,7 @@ export const Menu = ({ currentPage }) => {
             {checkPage('/info') ? 'Назад' : 'Информация'}
           </div>
         </a>
-        <div className="brand" href="/" onselectstart="return false">
+        <div className="brand" href="/" onSelectstart="return false">
           PREDKI.IO
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const oddMonths = [
   'Января',
@@ -20,19 +20,33 @@ export const SelectDate = ({ required, typeOfDate }) => {
     [...Array(31).keys()].map(i => <option key={i + 1}>{i + 1}</option>)
   );
 
+  const [daySelectStyle, setDaySelectStyle] = useState({
+    color: '#6c757d'
+  });
+  const [monthSelectStyle, setMonthSelectStyle] = useState({
+    color: '#6c757d'
+  });
+
   const handleChange = event => {
     switch (event.target.name) {
       case typeOfDate + 'day':
         setDay(event.target.value);
-        console.log(event.target.value);
+        setDaySelectStyle({
+          color: '#d0d7e1'
+        });
         break;
       case typeOfDate + 'month':
         setMonth(event.target.value);
-        console.log(month);
-        if (event.target.value == 'Февраля') {
+        setMonthSelectStyle({
+          color: '#d0d7e1'
+        });
+        if (event.target.value === 'Февраля') {
           setDayOptions(
             [...Array(29).keys()].map(i => <option key={i + 1}>{i + 1}</option>)
           );
+          if (day > 29) {
+            setDay(1);
+          }
         } else if (oddMonths.includes(event.target.value)) {
           setDayOptions(
             [...Array(31).keys()].map(i => <option key={i + 1}>{i + 1}</option>)
@@ -41,6 +55,9 @@ export const SelectDate = ({ required, typeOfDate }) => {
           setDayOptions(
             [...Array(30).keys()].map(i => <option key={i + 1}>{i + 1}</option>)
           );
+          if (day > 30) {
+            setDay(1);
+          }
         }
         break;
       case typeOfDate + 'year':
@@ -63,14 +80,14 @@ export const SelectDate = ({ required, typeOfDate }) => {
     <div className="form-row">
       <div className="col">
         <select
-          defaultValue=""
           className="form-control"
           onChange={handleChange}
           name={typeOfDate + 'day'}
-          id="day"
+          style={daySelectStyle}
+          value={day}
           required={required}
         >
-          <option value="" disabled>
+          <option value="" hidden disabled>
             День
           </option>
           {dayOptions}
@@ -78,11 +95,11 @@ export const SelectDate = ({ required, typeOfDate }) => {
       </div>
       <div className="col">
         <select
-          defaultValue=""
           className="form-control"
           onChange={handleChange}
           name={typeOfDate + 'month'}
-          id="month"
+          style={monthSelectStyle}
+          value={month}
           required={required}
         >
           <option value="" disabled>

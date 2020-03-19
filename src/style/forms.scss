@@ -34,14 +34,6 @@ label {
   }
 }
 
-select:required:invalid {
-  color: #6c757d;
-}
-
-option[value=''][disabled] {
-  display: none;
-}
-
 option {
   color: black;
 }
