@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
+import { AuthContext } from '../context/Auth';
 import ScrollBooster from 'scrollbooster';
 import { PersonCard } from './PersonCard';
+import app from '../base';
 import '../style/tree.scss';
 
 export const Tree = () => {
@@ -20,12 +22,25 @@ export const Tree = () => {
     });
   }, []);
 
+  const { currentUser } = useContext(AuthContext);
+  const db = app.firestore();
+
+  const user = db
+    .collection('users')
+    .doc(currentUser.uid)
+    .get()
+    .then(doc => {
+      console.log(doc.data());
+    })
+    .catch(error => {});
+
+  console.log(user);
+
   return (
     <div className="tree-container" onselectstart="return false">
       <div className="tree">
         <div className="tree-row">
-          <PersonCard />
-          <PersonCard />
+          <PersonCard person={user} />
         </div>
       </div>
     </div>
