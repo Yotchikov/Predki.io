@@ -15,13 +15,13 @@ export const PersonCard = ({ person }) => {
           </button>
         </div>
       </div>
-      <a href="" className="person-body">
+      <a href="/" className="person-body">
         <h6 className="name">
           {person.firstName + ' ' + person.secondName + ' ' + person.lastName}
         </h6>
         <p className="age">
           {person.birthDate}
-          {person.deathDate != '' ? ' - ' + person.deathDate : person.deathDate}
+          {person.deathDate !== '' ? ' - ' + person.deathDate : person.deathDate}
           <br />
           <i className="fa fa-map-marker" aria-hidden="true"></i>
           Корлеоне

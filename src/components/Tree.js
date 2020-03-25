@@ -34,10 +34,8 @@ export const Tree = () => {
     })
     .catch(error => {});
 
-  console.log(user);
-
   return (
-    <div className="tree-container" onselectstart="return false">
+    <div className="tree-container">
       <div className="tree">
         <div className="tree-row">
           <PersonCard person={user} />
