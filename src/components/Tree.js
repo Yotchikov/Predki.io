@@ -6,7 +6,7 @@ import app from '../base';
 import '../style/tree.scss';
 
 export const Tree = () => {
-  const [people, setPeople] = useState('Bye');
+  const [people, setPeople] = useState([]);
   const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
@@ -27,22 +27,29 @@ export const Tree = () => {
     // Fetching data
     const fetchData = async () => {
       const db = app.firestore();
-      const data = await db.collection('users').doc(currentUser.uid).get();
-      setPeople(data.data().firstName); //data.docs.map(doc => doc.data()));
-      console.log(people);
+      const data = await db
+        .collection('users')
+        .doc(currentUser.uid)
+        .collection('people')
+        .get();
+      setPeople(data.docs.map(doc => doc.data()));
     };
     fetchData();
   }, []);
 
+  const treeLayout = () => {
+    console.log(people);
+    if (people && people.length > 0) {
+      return people.map(person => <PersonCard person={person} />);
+    } else {
+      return null;
+    }
+  };
+
   return (
     <div className="tree-container">
       <div className="tree">
-        <div className="tree-row">
-          {
-            people
-            // <PersonCard person={people[0]} />
-          }
-        </div>
+        <div className="tree-row">{treeLayout()}</div>
       </div>
     </div>
   );
