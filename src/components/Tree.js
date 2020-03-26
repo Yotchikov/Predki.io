@@ -4,27 +4,14 @@ import ScrollBooster from 'scrollbooster';
 import { PersonCard } from './PersonCard';
 import app from '../base';
 import '../style/tree.scss';
+import { Loading } from '../pages/Loading';
 
 export const Tree = () => {
-  const [people, setPeople] = useState([]);
+  const [people, setPeople] = useState(null);
   const { currentUser } = useContext(AuthContext);
 
+  // Fetching data
   useEffect(() => {
-    // Setting ScrollBooster
-    const viewport = document.querySelector('.tree-container');
-    const content = document.querySelector('.tree');
-    new ScrollBooster({
-      viewport,
-      content,
-      onUpdate: state => {
-        content.style.transform = `translate(
-            ${-state.position.x}px,
-            ${-state.position.y}px
-          )`;
-      }
-    });
-
-    // Fetching data
     const fetchData = async () => {
       const db = app.firestore();
       const data = await db
@@ -37,12 +24,28 @@ export const Tree = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (people) {
+      const viewport = document.querySelector('.tree-container');
+      const content = document.querySelector('.tree');
+      new ScrollBooster({
+        viewport,
+        content,
+        onUpdate: state => {
+          content.style.transform = `translate(
+            ${-state.position.x}px,
+            ${-state.position.y}px
+          )`;
+        }
+      });
+    }
+  }, [people]);
+
   const treeLayout = () => {
-    console.log(people);
     if (people && people.length > 0) {
       return people.map(person => <PersonCard person={person} />);
     } else {
-      return null;
+      return <Loading />;
     }
   };
 
