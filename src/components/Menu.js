@@ -4,7 +4,6 @@ import '../style/menu.scss';
 
 export const Menu = ({ currentPage }) => {
   const checkPage = page => currentPage === page;
-  console.log(currentPage);
   return (
     <div>
       <div className="menu">
