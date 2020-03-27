@@ -21,9 +21,11 @@ export const Tree = () => {
         .get();
       setPeople(data.docs.map(doc => doc.data()));
     };
+    
     fetchData();
   }, []);
 
+  // Running ScrollBooster
   useEffect(() => {
     if (people) {
       const viewport = document.querySelector('.tree-container');

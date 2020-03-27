@@ -2,6 +2,21 @@ import React from 'react';
 import '../style/person.scss';
 
 export const PersonCard = ({ person }) => {
+  const birthDate = person.birthDate
+    ? person.birthDate.day +
+      ' ' +
+      person.birthDate.month +
+      ' ' +
+      person.birthDate.year
+    : '';
+
+  const deathDate = person.deathDate
+    ? person.deathDate.day +
+      ' ' +
+      person.deathDate.month +
+      ' ' +
+      person.deathDate.year
+    : '';
   return (
     <div className="person" id="vito">
       <div className="avatar">
@@ -20,8 +35,8 @@ export const PersonCard = ({ person }) => {
           {person.firstName + ' ' + person.secondName + ' ' + person.lastName}
         </h6>
         <p className="age">
-          {person.birthDate}
-          {person.deathDate !== '' ? ' - ' + person.deathDate : person.deathDate}
+          {birthDate}
+          {deathDate !== '' ? ' - ' + deathDate : deathDate}
           <br />
           <i className="fa fa-map-marker" aria-hidden="true"></i>
           Корлеоне

@@ -1,19 +1,66 @@
-import React, { useCallback } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
+import { AuthContext } from '../context/Auth';
 import { SelectDate } from '../components/SelectDate';
+import app from '../base';
+import { Tree } from '../components/Tree';
 
 export const Add = ({ history }) => {
+  const [addStatus, setAddStatus] = useState(false);
+  const { currentUser } = useContext(AuthContext);
+
   const handleAdd = useCallback(
     async event => {
       event.preventDefault();
+
+      const {
+        firstName,
+        secondName,
+        lastName,
+        birthday,
+        birthmonth,
+        birthyear,
+        deathday,
+        deathmonth,
+        deathyear,
+        nativeCity,
+        sex,
+        bio
+      } = event.target.elements;
+
       try {
-        console.log('User added');
-        history.push('/');
+        app
+          .firestore()
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('people')
+          .add({
+            firstName: firstName.value,
+            secondName: secondName.value,
+            lastName: lastName.value,
+            birthDate: {
+              day: birthday.value,
+              month: birthmonth.value,
+              year: birthyear.value
+            },
+            deathDate: {
+              day: deathday.value,
+              month: deathmonth.value,
+              year: deathyear.value
+            },
+            nativeCity: nativeCity.value,
+            sex: sex.value
+          });
+        setAddStatus(true);
       } catch (error) {
         alert(error);
       }
     },
     [history]
   );
+
+  if (addStatus) {
+    return <Tree />;
+  }
   return (
     <div className="form-wrapper">
       <form className="add" onSubmit={handleAdd} autoComplete="nope">
@@ -112,7 +159,7 @@ export const Add = ({ history }) => {
         </div>
         <div className="mt-4">
           <button type="submit" className="btn btn-submit">
-            Войти
+            Добавить
           </button>
           <small className="ml-3 hint">
             * Данные поля необязательны к заполнению
