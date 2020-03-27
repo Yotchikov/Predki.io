@@ -39,7 +39,7 @@ export const PersonCard = ({ person }) => {
           {deathDate !== '' ? ' - ' + deathDate : deathDate}
           <br />
           <i className="fa fa-map-marker" aria-hidden="true"></i>
-          Корлеоне
+          {' ' + person.nativeCity}
         </p>
       </a>
     </div>
