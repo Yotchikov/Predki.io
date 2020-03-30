@@ -20,29 +20,36 @@ export const Tree = ({ people, families }) => {
     });
   }, []);
 
-  const treeLayout = family => {
-    const husbandTreeBranch = family.husbandFamily
-      ? treeLayout(families.doc(family.husbandFamily).data())
-      : null;
-    const wifeTreeBranch = family.wifeFamily
-      ? treeLayout(families.doc(family.wifeFamily).data())
-      : null;
+  const findById = id => {
+    if (id.startsWith('_')) {
+      return families.docs.find((element, index, array) => element.id === id);
+    } else {
+      return people.docs.find((element, index, array) => element.id === id);
+    }
+  };
 
-    console.log(family);
-    console.log(people);
+  const treeLayout = family => {
+    // const husbandTreeBranch = family.husbandFamily
+    //   ? treeLayout(families.doc(family.husbandFamily).data())
+    //   : null;
+    // const wifeTreeBranch = family.wifeFamily
+    //   ? treeLayout(families.doc(family.wifeFamily).data())
+    //   : null;
+
+    console.log(family.id);
 
     return (
       <div className="tree-branch">
         <div className="tree-row">
-          <PersonCard person={people.docs.filter(doc => doc.id === family.husband)[0].data()} />
-          <PersonCard person={people.docs.filter(doc => doc.id === family.wife)[0].data()} />
+          <PersonCard person={findById(family.husband).data()} />
+          <PersonCard person={findById(family.wife).data()} />
         </div>
         <div className="tree-row">
           {family.children.map(child =>
             child.startsWith('_') ? (
-              treeLayout(families.doc(child).data())
+              treeLayout(findById(child).data())
             ) : (
-              <PersonCard person={people.doc(child).data()} />
+              <PersonCard person={findById(child).data()} />
             )
           )}
         </div>
