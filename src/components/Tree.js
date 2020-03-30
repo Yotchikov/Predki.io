@@ -28,38 +28,47 @@ export const Tree = ({ people, families }) => {
     }
   };
 
-  const treeLayout = family => {
-    // const husbandTreeBranch = family.husbandFamily
-    //   ? treeLayout(families.doc(family.husbandFamily).data())
-    //   : null;
-    // const wifeTreeBranch = family.wifeFamily
-    //   ? treeLayout(families.doc(family.wifeFamily).data())
-    //   : null;
+  const treeLayout = (family, parentsDrawen = false) => {
+    const familyData = family.data();
 
-    console.log(family.id);
+    if (!familyData.husbandFamily && !familyData.wifeFamily) {
+      parentsDrawen = true;
+    }
+    console.log(familyData);
 
-    return (
-      <div className="tree-branch">
-        <div className="tree-row">
-          <PersonCard person={findById(family.husband).data()} />
-          <PersonCard person={findById(family.wife).data()} />
+    if (parentsDrawen) {
+      return (
+        <div className="tree-branch">
+          <div className="tree-row">
+            <PersonCard person={findById(familyData.husband).data()} />
+            <PersonCard person={findById(familyData.wife).data()} />
+          </div>
+          <div className="tree-row">
+            {familyData.children.map(child =>
+              child.startsWith('_') ? (
+                treeLayout(findById(child), true)
+              ) : (
+                <PersonCard person={findById(child).data()} />
+              )
+            )}
+          </div>
         </div>
-        <div className="tree-row">
-          {family.children.map(child =>
-            child.startsWith('_') ? (
-              treeLayout(findById(child).data())
-            ) : (
-              <PersonCard person={findById(child).data()} />
-            )
-          )}
-        </div>
-      </div>
-    );
+      );
+    } else {
+      const husbandTreeBranch = familyData.husbandFamily
+        ? treeLayout(findById(familyData.husbandFamily))
+        : null;
+      const wifeTreeBranch = familyData.wifeFamily
+        ? treeLayout(findById(familyData.wifeFamily))
+        : null;
+
+      return { wifeTreeBranch };
+    }
   };
 
   return (
     <div className="tree-container">
-      <div className="tree">{treeLayout(families.docs[0].data())}</div>
+      <div className="tree">{treeLayout(families.docs[1])}</div>
     </div>
   );
 };
