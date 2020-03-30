@@ -62,8 +62,6 @@ export const Tree = ({ people, families }) => {
         ? treeLayout(findById(familyData.wifeFamily))
         : null;
 
-      console.log(wifeTreeBranch);
-
       return <div>{ wifeTreeBranch }</div>;
     }
   };
