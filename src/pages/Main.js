@@ -6,24 +6,32 @@ import { Loading } from '../pages/Loading';
 
 export const Main = () => {
   const [people, setPeople] = useState(null);
+  const [families, setFamilies] = useState(null);
   const { currentUser } = useContext(AuthContext);
 
   // Fetching data
   useEffect(() => {
     const fetchData = async () => {
       const db = app.firestore();
-      const data = await db
+      const peopleDocs = await db
         .collection('users')
         .doc(currentUser.uid)
         .collection('people')
         .get();
-      setPeople(data.docs.map(doc => doc.data()));
+      const familiesDocs = await db
+        .collection('users')
+        .doc(currentUser.uid)
+        .collection('families')
+        .get();
+
+      setPeople(peopleDocs.docs);
+      setFamilies(familiesDocs.docs);
     };
 
     fetchData();
   }, [currentUser.uid]);
 
-  if (people && people.length > 0) {
+  if (people) {
     return <Tree people={people} />;
   } else {
     return <Loading />;
