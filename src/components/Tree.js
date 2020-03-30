@@ -1,30 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { AuthContext } from '../context/Auth';
+import React, { useEffect} from 'react';
 import ScrollBooster from 'scrollbooster';
 import { PersonCard } from './PersonCard';
-import app from '../base';
 import '../style/tree.scss';
-import { Loading } from '../pages/Loading';
 
-export const Tree = () => {
-  const [people, setPeople] = useState(null);
-  const { currentUser } = useContext(AuthContext);
-
-  // Fetching data
-  useEffect(() => {
-    const fetchData = async () => {
-      const db = app.firestore();
-      const data = await db
-        .collection('users')
-        .doc(currentUser.uid)
-        .collection('people')
-        .get();
-      setPeople(data.docs.map(doc => doc.data()));
-    };
-    
-    fetchData();
-  }, []);
-
+export const Tree = ({ people }) => {
   // Running ScrollBooster
   useEffect(() => {
     if (people) {
@@ -41,14 +20,10 @@ export const Tree = () => {
         }
       });
     }
-  }, [people]);
+  }, []);
 
   const treeLayout = () => {
-    if (people && people.length > 0) {
-      return people.map(person => <PersonCard person={person} />);
-    } else {
-      return <Loading />;
-    }
+    return null;
   };
 
   return (

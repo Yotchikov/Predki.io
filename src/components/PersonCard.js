@@ -17,6 +17,7 @@ export const PersonCard = ({ person }) => {
       ' ' +
       person.deathDate.year
     : '';
+
   return (
     <div className="person" id="vito">
       <div className="avatar">
