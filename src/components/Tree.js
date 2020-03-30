@@ -34,7 +34,7 @@ export const Tree = ({ people, families }) => {
     if (!familyData.husbandFamily && !familyData.wifeFamily) {
       parentsDrawen = true;
     }
-    console.log(familyData);
+    // console.log(familyData);
 
     if (parentsDrawen) {
       return (
@@ -62,7 +62,9 @@ export const Tree = ({ people, families }) => {
         ? treeLayout(findById(familyData.wifeFamily))
         : null;
 
-      return { wifeTreeBranch };
+      console.log(wifeTreeBranch);
+
+      return <div>{ wifeTreeBranch }</div>;
     }
   };
 
