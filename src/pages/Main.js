@@ -24,15 +24,15 @@ export const Main = () => {
         .collection('families')
         .get();
 
-      setPeople(peopleDocs.docs);
-      setFamilies(familiesDocs.docs);
+      setPeople(peopleDocs);
+      setFamilies(familiesDocs);
     };
 
     fetchData();
   }, [currentUser.uid]);
 
-  if (people) {
-    return <Tree people={people} />;
+  if (people && families) {
+    return <Tree people={people} families={families} />;
   } else {
     return <Loading />;
   }
