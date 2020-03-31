@@ -4,6 +4,8 @@ import { PersonCard } from './PersonCard';
 import '../style/tree.scss';
 
 export const Tree = ({ people, families }) => {
+  const drawenFamilies = [];
+
   // Running ScrollBooster
   useEffect(() => {
     const viewport = document.querySelector('.tree-container');
@@ -28,16 +30,27 @@ export const Tree = ({ people, families }) => {
     }
   };
 
-  const treeLayout = (family, parentsDrawen = false) => {
+  const treeLayout = family => {
     const familyData = family.data();
 
-    if (!familyData.husbandFamily && !familyData.wifeFamily) {
-      parentsDrawen = true;
+    if (drawenFamilies.indexOf(family.id) !== -1) {
+      return null;
     }
-    // console.log(familyData);
+    drawenFamilies.push(family.id);
 
-    if (parentsDrawen) {
-      return (
+    const husbandTreeBranch = familyData.husbandFamily
+      ? treeLayout(findById(familyData.husbandFamily))
+      : null;
+    const wifeTreeBranch = familyData.wifeFamily
+      ? treeLayout(findById(familyData.wifeFamily))
+      : null;
+
+    return (
+      <>
+        <div className="tree-row">
+          <div className="tree-branch">{husbandTreeBranch}</div>
+          <div className="tree-branch">{wifeTreeBranch}</div>
+        </div>
         <div className="tree-branch">
           <div className="tree-row">
             <PersonCard person={findById(familyData.husband).data()} />
@@ -46,24 +59,15 @@ export const Tree = ({ people, families }) => {
           <div className="tree-row">
             {familyData.children.map(child =>
               child.startsWith('_') ? (
-                treeLayout(findById(child), true)
+                treeLayout(findById(child))
               ) : (
                 <PersonCard person={findById(child).data()} />
               )
             )}
           </div>
         </div>
-      );
-    } else {
-      const husbandTreeBranch = familyData.husbandFamily
-        ? treeLayout(findById(familyData.husbandFamily))
-        : null;
-      const wifeTreeBranch = familyData.wifeFamily
-        ? treeLayout(findById(familyData.wifeFamily))
-        : null;
-
-      return <div>{ wifeTreeBranch }</div>;
-    }
+      </>
+    );
   };
 
   return (
