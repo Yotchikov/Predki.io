@@ -33,46 +33,58 @@ export const Tree = ({ people, families }) => {
   const treeLayout = family => {
     const familyData = family.data();
 
-    if (drawenFamilies.indexOf(family.id) !== -1) {
-      return null;
-    }
     drawenFamilies.push(family.id);
 
-    const husbandTreeBranch = familyData.husbandFamily
-      ? treeLayout(findById(familyData.husbandFamily))
-      : null;
-    const wifeTreeBranch = familyData.wifeFamily
-      ? treeLayout(findById(familyData.wifeFamily))
-      : null;
+    const husbandTreeBranch =
+      familyData.husbandFamily &&
+      drawenFamilies.indexOf(familyData.husbandFamily) === -1
+        ? treeLayout(findById(familyData.husbandFamily))
+        : null;
+    const wifeTreeBranch =
+      familyData.wifeFamily &&
+      drawenFamilies.indexOf(familyData.wifeFamily) === -1
+        ? treeLayout(findById(familyData.wifeFamily))
+        : null;
+
+    if (husbandTreeBranch && wifeTreeBranch) {
+      return (
+        <div className="tree-row">
+          {husbandTreeBranch}
+          {wifeTreeBranch}
+        </div>
+      );
+    }
+
+    if (husbandTreeBranch && !wifeTreeBranch) {
+      return <>{husbandTreeBranch}</>;
+    }
+
+    if (!husbandTreeBranch && wifeTreeBranch) {
+      return <>{wifeTreeBranch}</>;
+    }
 
     return (
-      <>
+      <div className="tree-branch">
         <div className="tree-row">
-          <div className="tree-branch">{husbandTreeBranch}</div>
-          <div className="tree-branch">{wifeTreeBranch}</div>
+          <PersonCard person={findById(familyData.husband).data()} />
+          <PersonCard person={findById(familyData.wife).data()} />
         </div>
-        <div className="tree-branch">
-          <div className="tree-row">
-            <PersonCard person={findById(familyData.husband).data()} />
-            <PersonCard person={findById(familyData.wife).data()} />
-          </div>
-          <div className="tree-row">
-            {familyData.children.map(child =>
-              child.startsWith('_') ? (
-                treeLayout(findById(child))
-              ) : (
-                <PersonCard person={findById(child).data()} />
-              )
-            )}
-          </div>
+        <div className="tree-row">
+          {familyData.children.map(child =>
+            child.startsWith('_') ? (
+              treeLayout(findById(child))
+            ) : (
+              <PersonCard person={findById(child).data()} />
+            )
+          )}
         </div>
-      </>
+      </div>
     );
   };
 
   return (
     <div className="tree-container">
-      <div className="tree">{treeLayout(families.docs[1])}</div>
+      <div className="tree">{treeLayout(families.docs[0])}</div>
     </div>
   );
 };
