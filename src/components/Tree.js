@@ -34,6 +34,10 @@ export const Tree = ({ people, families }) => {
   const familyLayout = family => {
     const familyData = family.data();
 
+    if (drawenFamilies.indexOf(family.id) !== -1) {
+      return null;
+    }
+
     drawenFamilies.push(family.id);
 
     console.log(findById(familyData.husband).data());
