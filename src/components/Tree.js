@@ -36,8 +36,6 @@ export const Tree = ({ people, families }) => {
 
     drawenFamilies.push(family.id);
 
-    console.log(findById(familyData.husband).data());
-
     // Если обеих родительских веток нет или есть одна и она отрисована
     if (
       (!familyData.husbandFamily && !familyData.wifeFamily) ||
