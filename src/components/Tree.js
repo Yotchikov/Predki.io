@@ -31,27 +31,20 @@ export const Tree = ({ people, families }) => {
     }
   };
 
-  const familyLayout = family => {
+  const familyLayout = (family, parentsId=null) => {
     const familyData = family.data();
 
-    if (drawenFamilies.indexOf(family.id) !== -1) {
-      return null;
-    }
+    // if (drawenFamilies.indexOf(family.id) !== -1) {
+    //   return null;
+    // }
 
     drawenFamilies.push(family.id);
 
     console.log(findById(familyData.husband).data());
 
-    // Если обеих родительских веток нет или они обе уже отрисованы или есть одна и она отрисована
+    // Если обеих родительских веток нет или есть одна и она отрисована
     if (
-      (!(
-        familyData.husbandFamily &&
-        drawenFamilies.indexOf(familyData.husbandFamily) === -1
-      ) &&
-        !(
-          familyData.wifeFamily &&
-          drawenFamilies.indexOf(familyData.wifeFamily) === -1
-        )) ||
+      (!familyData.husbandFamily && !familyData.wifeFamily) ||
       (familyData.husbandFamily &&
         !familyData.wifeFamily &&
         drawenFamilies.indexOf(familyData.husbandFamily) !== -1) ||
@@ -68,7 +61,7 @@ export const Tree = ({ people, families }) => {
           <div className="tree-row">
             {familyData.children.map(child =>
               child.startsWith('_') ? (
-                familyLayout(findById(child))
+                familyLayout(findById(child), family.id)
               ) : (
                 <PersonCard person={findById(child).data()} />
               )
@@ -123,7 +116,7 @@ export const Tree = ({ people, families }) => {
           <div className="tree-row">
             {familyData.children.map(child =>
               child.startsWith('_') ? (
-                familyLayout(findById(child))
+                familyLayout(findById(child), family.id)
               ) : (
                 <PersonCard person={findById(child).data()} />
               )
@@ -142,6 +135,32 @@ export const Tree = ({ people, families }) => {
     ) {
       familiesToRender.push(familyData.husbandFamily);
       return null;
+    }
+
+    // Есть обе родительские ветки и они уже отрисованы
+    if (
+      familyData.husbandFamily &&
+      familyData.wifeFamily &&
+      drawenFamilies.indexOf(familyData.husbandFamily) !== -1 &&
+      drawenFamilies.indexOf(familyData.wifeFamily) !== -1
+    ) {
+      return familyData.husbandFamily === parentsId ? (
+        <div className="family">
+          <div className="tree-row">
+            <PersonCard person={findById(familyData.husband).data()} />
+            <PersonCard person={findById(familyData.wife).data()} />
+          </div>
+          <div className="tree-row">
+            {familyData.children.map(child =>
+              child.startsWith('_') ? (
+                familyLayout(findById(child), family.id)
+              ) : (
+                <PersonCard person={findById(child).data()} />
+              )
+            )}
+          </div>
+        </div>
+      ) : null;
     }
   };
 
