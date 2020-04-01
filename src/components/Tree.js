@@ -103,7 +103,6 @@ export const Tree = ({ people, families }) => {
       drawenFamilies.indexOf(familyData.husbandFamily) === -1 &&
       drawenFamilies.indexOf(familyData.wifeFamily) === -1
     ) {
-      familiesToRender.push(familyData.wifeFamily);
       return familyLayout(findById(familyData.husbandFamily));
     }
 
