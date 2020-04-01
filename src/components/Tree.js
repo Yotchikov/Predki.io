@@ -5,6 +5,7 @@ import '../style/tree.scss';
 
 export const Tree = ({ people, families }) => {
   const drawenFamilies = [];
+  const familiesToRender = [];
 
   // Running ScrollBooster
   useEffect(() => {
@@ -30,61 +31,133 @@ export const Tree = ({ people, families }) => {
     }
   };
 
-  const treeLayout = family => {
+  const familyLayout = family => {
     const familyData = family.data();
 
     drawenFamilies.push(family.id);
 
-    const husbandTreeBranch =
-      familyData.husbandFamily &&
-      drawenFamilies.indexOf(familyData.husbandFamily) === -1
-        ? treeLayout(findById(familyData.husbandFamily))
-        : null;
-    const wifeTreeBranch =
-      familyData.wifeFamily &&
-      drawenFamilies.indexOf(familyData.wifeFamily) === -1
-        ? treeLayout(findById(familyData.wifeFamily))
-        : null;
+    console.log(findById(familyData.husband).data());
 
-    if (husbandTreeBranch && wifeTreeBranch) {
+    // Если обеих родительских веток нет или они обе уже отрисованы или есть одна и она отрисована
+    if (
+      (!(
+        familyData.husbandFamily &&
+        drawenFamilies.indexOf(familyData.husbandFamily) === -1
+      ) &&
+        !(
+          familyData.wifeFamily &&
+          drawenFamilies.indexOf(familyData.wifeFamily) === -1
+        )) ||
+      (familyData.husbandFamily &&
+        !familyData.wifeFamily &&
+        drawenFamilies.indexOf(familyData.husbandFamily) !== -1) ||
+      (familyData.wifeFamily &&
+        !familyData.husbandFamily &&
+        drawenFamilies.indexOf(familyData.wifeFamily) !== -1)
+    ) {
       return (
-        <div className="tree-row">
-          {husbandTreeBranch}
-          {wifeTreeBranch}
+        <div className="family">
+          <div className="tree-row">
+            <PersonCard person={findById(familyData.husband).data()} />
+            <PersonCard person={findById(familyData.wife).data()} />
+          </div>
+          <div className="tree-row">
+            {familyData.children.map(child =>
+              child.startsWith('_') ? (
+                familyLayout(findById(child))
+              ) : (
+                <PersonCard person={findById(child).data()} />
+              )
+            )}
+          </div>
         </div>
       );
     }
 
-    if (husbandTreeBranch && !wifeTreeBranch) {
-      return <>{husbandTreeBranch}</>;
+    // Есть только мужская родительская ветка и она еще не отрисована
+    if (
+      familyData.husbandFamily &&
+      !familyData.wifeFamily &&
+      drawenFamilies.indexOf(familyData.husbandFamily) === -1
+    ) {
+      return familyLayout(findById(familyData.husbandFamily));
     }
 
-    if (!husbandTreeBranch && wifeTreeBranch) {
-      return <>{wifeTreeBranch}</>;
+    // Есть только женская родительская ветка и она еще не отрисована
+    if (
+      familyData.wifeFamily &&
+      !familyData.husbandFamily &&
+      drawenFamilies.indexOf(familyData.wifeFamily) === -1
+    ) {
+      return familyLayout(findById(familyData.wifeFamily));
     }
 
-    return (
-      <div className="tree-branch">
-        <div className="tree-row">
-          <PersonCard person={findById(familyData.husband).data()} />
-          <PersonCard person={findById(familyData.wife).data()} />
+    // Есть обе родительские ветки и они обе не отрисованы
+    if (
+      familyData.husbandFamily &&
+      familyData.wifeFamily &&
+      drawenFamilies.indexOf(familyData.husbandFamily) === -1 &&
+      drawenFamilies.indexOf(familyData.wifeFamily) === -1
+    ) {
+      familiesToRender.push(familyData.wifeFamily);
+      return familyLayout(findById(familyData.husbandFamily));
+    }
+
+    // Есть обе родительские ветки и мужская уже отрисована
+    if (
+      familyData.husbandFamily &&
+      familyData.wifeFamily &&
+      drawenFamilies.indexOf(familyData.husbandFamily) !== -1 &&
+      drawenFamilies.indexOf(familyData.wifeFamily) === -1
+    ) {
+      familiesToRender.push(familyData.wifeFamily);
+      return (
+        <div className="family">
+          <div className="tree-row">
+            <PersonCard person={findById(familyData.husband).data()} />
+            <PersonCard person={findById(familyData.wife).data()} />
+          </div>
+          <div className="tree-row">
+            {familyData.children.map(child =>
+              child.startsWith('_') ? (
+                familyLayout(findById(child))
+              ) : (
+                <PersonCard person={findById(child).data()} />
+              )
+            )}
+          </div>
         </div>
-        <div className="tree-row">
-          {familyData.children.map(child =>
-            child.startsWith('_') ? (
-              treeLayout(findById(child))
-            ) : (
-              <PersonCard person={findById(child).data()} />
-            )
-          )}
-        </div>
-      </div>
-    );
+      );
+    }
+
+    // Есть обе родительские ветки и женская уже отрисована
+    if (
+      familyData.husbandFamily &&
+      familyData.wifeFamily &&
+      drawenFamilies.indexOf(familyData.husbandFamily) === -1 &&
+      drawenFamilies.indexOf(familyData.wifeFamily) !== -1
+    ) {
+      familiesToRender.push(familyData.husbandFamily);
+      return null;
+    }
+  };
+
+  const treeLayout = () => {
+    const renderedFamilies = [];
+
+    renderedFamilies.push(familyLayout(families.docs[0]));
+    while (familiesToRender.length !== 0) {
+      renderedFamilies.push(familiesToRender[0]);
+      familiesToRender.shift();
+    }
+
+    console.log(renderedFamilies);
+    return renderedFamilies;
   };
 
   return (
     <div className="tree-container">
-      <div className="tree">{treeLayout(families.docs[0])}</div>
+      <div className="tree">{treeLayout()}</div>
     </div>
   );
 };
