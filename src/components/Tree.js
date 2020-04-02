@@ -47,7 +47,7 @@ export const Tree = ({ people, families }) => {
         drawenFamilies.indexOf(familyData.wifeFamily) !== -1)
     ) {
       return (
-        <div className="family">
+        <div id={family.id} className="family">
           <div className="tree-row">
             <PersonCard person={findById(familyData.husband).data()} />
             <PersonCard person={findById(familyData.wife).data()} />
@@ -102,7 +102,7 @@ export const Tree = ({ people, families }) => {
     ) {
       familiesToRender.push(familyData.wifeFamily);
       return (
-        <div className="family">
+        <div id={family.id} className="family">
           <div className="tree-row">
             <PersonCard person={findById(familyData.husband).data()} />
             <PersonCard person={findById(familyData.wife).data()} />
@@ -139,7 +139,7 @@ export const Tree = ({ people, families }) => {
       drawenFamilies.indexOf(familyData.wifeFamily) !== -1
     ) {
       return familyData.husbandFamily === parentsId ? (
-        <div className="family">
+        <div id={family.id} className="family">
           <div className="tree-row">
             <PersonCard person={findById(familyData.husband).data()} />
             <PersonCard person={findById(familyData.wife).data()} />
