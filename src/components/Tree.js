@@ -6,6 +6,7 @@ import '../style/tree.scss';
 export const Tree = ({ people, families }) => {
   const drawenFamilies = [];
   const familiesToRender = [];
+  const depths = [];
 
   // Running ScrollBooster
   useEffect(() => {
@@ -31,10 +32,15 @@ export const Tree = ({ people, families }) => {
     }
   };
 
-  const familyLayout = (family, parentsId=null) => {
+  const familyLayout = (family, depth, parentsId = null) => {
     const familyData = family.data();
 
     drawenFamilies.push(family.id);
+
+    // Если родителей нет, мы добрались до вершины ветки - сохраняем глубину
+    if (!familyData.husbandFamily && !familyData.wifeFamily) {
+      depths.push(depth);
+    }
 
     // Если обеих родительских веток нет или есть одна и она отрисована
     if (
@@ -55,7 +61,7 @@ export const Tree = ({ people, families }) => {
           <div className="tree-row">
             {familyData.children.map(child =>
               child.startsWith('_') ? (
-                familyLayout(findById(child), family.id)
+                familyLayout(findById(child), depth + 1, family.id)
               ) : (
                 <PersonCard person={findById(child).data()} />
               )
@@ -71,7 +77,7 @@ export const Tree = ({ people, families }) => {
       !familyData.wifeFamily &&
       drawenFamilies.indexOf(familyData.husbandFamily) === -1
     ) {
-      return familyLayout(findById(familyData.husbandFamily));
+      return familyLayout(findById(familyData.husbandFamily), depth - 1);
     }
 
     // Есть только женская родительская ветка и она еще не отрисована
@@ -80,7 +86,7 @@ export const Tree = ({ people, families }) => {
       !familyData.husbandFamily &&
       drawenFamilies.indexOf(familyData.wifeFamily) === -1
     ) {
-      return familyLayout(findById(familyData.wifeFamily));
+      return familyLayout(findById(familyData.wifeFamily), depth - 1);
     }
 
     // Есть обе родительские ветки и они обе не отрисованы
@@ -90,7 +96,7 @@ export const Tree = ({ people, families }) => {
       drawenFamilies.indexOf(familyData.husbandFamily) === -1 &&
       drawenFamilies.indexOf(familyData.wifeFamily) === -1
     ) {
-      return familyLayout(findById(familyData.husbandFamily));
+      return familyLayout(findById(familyData.husbandFamily), depth - 1);
     }
 
     // Есть обе родительские ветки и мужская уже отрисована
@@ -100,7 +106,7 @@ export const Tree = ({ people, families }) => {
       drawenFamilies.indexOf(familyData.husbandFamily) !== -1 &&
       drawenFamilies.indexOf(familyData.wifeFamily) === -1
     ) {
-      familiesToRender.push(familyData.wifeFamily);
+      familiesToRender.push([familyData.wifeFamily, depth - 1]);
       return (
         <div id={family.id} className="family">
           <div className="tree-row">
@@ -110,7 +116,7 @@ export const Tree = ({ people, families }) => {
           <div className="tree-row">
             {familyData.children.map(child =>
               child.startsWith('_') ? (
-                familyLayout(findById(child), family.id)
+                familyLayout(findById(child), depth + 1, family.id)
               ) : (
                 <PersonCard person={findById(child).data()} />
               )
@@ -127,7 +133,7 @@ export const Tree = ({ people, families }) => {
       drawenFamilies.indexOf(familyData.husbandFamily) === -1 &&
       drawenFamilies.indexOf(familyData.wifeFamily) !== -1
     ) {
-      familiesToRender.push(familyData.husbandFamily);
+      familiesToRender.push([familyData.husbandFamily, depth - 1]);
       return null;
     }
 
@@ -147,7 +153,7 @@ export const Tree = ({ people, families }) => {
           <div className="tree-row">
             {familyData.children.map(child =>
               child.startsWith('_') ? (
-                familyLayout(findById(child), family.id)
+                familyLayout(findById(child), depth + 1, family.id)
               ) : (
                 <PersonCard person={findById(child).data()} />
               )
@@ -161,14 +167,21 @@ export const Tree = ({ people, families }) => {
   const treeLayout = () => {
     const renderedFamilies = [];
 
-    renderedFamilies.push(familyLayout(families.docs[0]));
+    renderedFamilies.push(familyLayout(families.docs[0], 0));
     while (familiesToRender.length !== 0) {
-      renderedFamilies.push(familyLayout(findById(familiesToRender[0])));
+      renderedFamilies.push(
+        familyLayout(findById(familiesToRender[0][0]), familiesToRender[0][1])
+      );
       familiesToRender.shift();
     }
 
-    console.log(renderedFamilies);
-    return renderedFamilies;
+    const maxDepth = Math.min(...depths);
+
+    return renderedFamilies.map((fam, i) => (
+      <div style={{ marginTop: 305 * (depths[i] - maxDepth) + 'px' }}>
+        {fam}
+      </div>
+    ));
   };
 
   return (
