@@ -1,5 +1,6 @@
 import React from 'react';
 import '../style/person.scss';
+import nouser from '../nouser.png';
 
 export const PersonCard = ({ person }) => {
   const birthDate = person.birthDate
@@ -21,7 +22,7 @@ export const PersonCard = ({ person }) => {
   return (
     <div className="person">
       <div className="avatar">
-        <img src="img/vito.jpg" alt="" />
+        <img src={nouser} alt="" />
         <div className="buttons">
           <button className="btn btn-edit">
             <i className="fa fa-pencil" aria-hidden="true"></i>
