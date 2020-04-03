@@ -30,8 +30,9 @@ export const Tree = ({ people, families, sendRelative }) => {
 
   const handlePersonSelection = sendRelative
     ? (id, relationship) => {
-        setSelectedPersonId(id);
-        console.log(selectedPersonId);
+        if (id !== selectedPersonId) {
+          setSelectedPersonId(id);
+        }
       }
     : null;
 

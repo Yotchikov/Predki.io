@@ -29,10 +29,16 @@ export const PersonCard = ({
   const [relationship, setRelationship] = useState('parent');
   const style = selected ? { border: 'solid 1px #d048b6' } : null;
 
-  const handleClick = () => {
-    console.log(person.id);
+  const handleBodyClick = () => {
     if (handlePersonSelection) {
       handlePersonSelection(person.id, relationship);
+    }
+  };
+
+  const handleRelationshipClick = msg => {
+    setRelationship(msg);
+    if (handlePersonSelection) {
+      handlePersonSelection(person.id, msg);
     }
   };
 
@@ -49,7 +55,7 @@ export const PersonCard = ({
           </button>
         </div>
       </div>
-      <div className="person-body" style={style} onClick={handleClick}>
+      <div className="person-body" style={style} onClick={handleBodyClick}>
         <h6 className="name">
           {personData.firstName +
             ' ' +
@@ -70,13 +76,13 @@ export const PersonCard = ({
           </a>
         </div>
       </div>
-      {style ? (
+      {selected ? (
         <ul className="list-group list-group-horizontal choose-relative">
           <li
             className={
               'list-group-item ' + (relationship === 'parent' ? 'selected' : '')
             }
-            onClick={() => setRelationship('parent')}
+            onClick={() => handleRelationshipClick('parent')}
           >
             Родитель
           </li>
@@ -84,7 +90,7 @@ export const PersonCard = ({
             className={
               'list-group-item ' + (relationship === 'spouse' ? 'selected' : '')
             }
-            onClick={() => setRelationship('spouse')}
+            onClick={() => handleRelationshipClick('spouse')}
           >
             Супруг
           </li>
@@ -92,7 +98,7 @@ export const PersonCard = ({
             className={
               'list-group-item ' + (relationship === 'child' ? 'selected' : '')
             }
-            onClick={() => setRelationship('child')}
+            onClick={() => handleRelationshipClick('child')}
           >
             Ребенок
           </li>
