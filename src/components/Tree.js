@@ -12,9 +12,10 @@ export const Tree = ({ people, families }) => {
   useEffect(() => {
     const viewport = document.querySelector('.tree-container');
     const content = document.querySelector('.tree');
-    new ScrollBooster({
+    const sb = new ScrollBooster({
       viewport,
       content,
+      emulateScroll: true,
       onUpdate: state => {
         content.style.transform = `translate(
             ${-state.position.x}px,

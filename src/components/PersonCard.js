@@ -19,7 +19,7 @@ export const PersonCard = ({ person }) => {
     : '';
 
   return (
-    <div className="person" id="vito">
+    <div className="person">
       <div className="avatar">
         <img src="img/vito.jpg" alt="" />
         <div className="buttons">
