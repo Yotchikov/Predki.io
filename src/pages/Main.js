@@ -32,15 +32,13 @@ export const Main = ({ status }) => {
     fetchData();
   }, [currentUser.uid]);
 
-  const getRelative = (id, option) => {};
+  const getRelative = (id, option) => {
+    console.log('hi');
+  };
 
   if (people && families) {
     return (
-      <Tree
-        people={people}
-        families={families}
-        handleClick={status === 'add' ? getRelative : null}
-      />
+      <Tree people={people} families={families} sendRelative={getRelative} />
     );
   } else {
     return <Loading />;

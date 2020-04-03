@@ -3,28 +3,37 @@ import '../style/person.scss';
 import nouser from '../nouser.png';
 import { useState } from 'react';
 
-export const PersonCard = ({ person, sendRelative }) => {
-  const birthDate = person.birthDate
-    ? person.birthDate.day +
+export const PersonCard = ({
+  person,
+  handlePersonSelection,
+  selected = false
+}) => {
+  const personData = person.data();
+
+  const birthDate = personData.birthDate
+    ? personData.birthDate.day +
       ' ' +
-      person.birthDate.month +
+      personData.birthDate.month +
       ' ' +
-      person.birthDate.year
+      personData.birthDate.year
     : '';
 
-  const deathDate = person.deathDate
-    ? person.deathDate.day +
+  const deathDate = personData.deathDate
+    ? personData.deathDate.day +
       ' ' +
-      person.deathDate.month +
+      personData.deathDate.month +
       ' ' +
-      person.deathDate.year
+      personData.deathDate.year
     : '';
 
-  const [relativeType, setRelativeType] = useState('parent');
-  const [style, setStyle] = useState(null);
+  const [relationship, setRelationship] = useState('parent');
+  const style = selected ? { border: 'solid 1px #d048b6' } : null;
 
   const handleClick = () => {
-    setStyle({ border: 'solid 1px #d048b6' });
+    console.log(person.id);
+    if (handlePersonSelection) {
+      handlePersonSelection(person.id, relationship);
+    }
   };
 
   return (
@@ -42,16 +51,22 @@ export const PersonCard = ({ person, sendRelative }) => {
       </div>
       <div className="person-body" style={style} onClick={handleClick}>
         <h6 className="name">
-          {person.firstName + ' ' + person.secondName + ' ' + person.lastName}
+          {personData.firstName +
+            ' ' +
+            personData.secondName +
+            ' ' +
+            personData.lastName}
         </h6>
         <div className="info">
           {birthDate}
           {deathDate !== '' ? ' - ' + deathDate : deathDate}
         </div>
         <div className="info">
-          <a href={'https://www.google.ru/maps/search/' + person.nativeCity}>
+          <a
+            href={'https://www.google.ru/maps/search/' + personData.nativeCity}
+          >
             <i className="fa fa-map-marker" aria-hidden="true"></i>
-            {' ' + person.nativeCity}
+            {' ' + personData.nativeCity}
           </a>
         </div>
       </div>
@@ -59,25 +74,25 @@ export const PersonCard = ({ person, sendRelative }) => {
         <ul className="list-group list-group-horizontal choose-relative">
           <li
             className={
-              'list-group-item ' + (relativeType === 'parent' ? 'active' : '')
+              'list-group-item ' + (relationship === 'parent' ? 'selected' : '')
             }
-            onClick={() => setRelativeType('parent')}
+            onClick={() => setRelationship('parent')}
           >
             Родитель
           </li>
           <li
             className={
-              'list-group-item ' + (relativeType === 'spouse' ? 'active' : '')
+              'list-group-item ' + (relationship === 'spouse' ? 'selected' : '')
             }
-            onClick={() => setRelativeType('spouse')}
+            onClick={() => setRelationship('spouse')}
           >
             Супруг
           </li>
           <li
             className={
-              'list-group-item ' + (relativeType === 'child' ? 'active' : '')
+              'list-group-item ' + (relationship === 'child' ? 'selected' : '')
             }
-            onClick={() => setRelativeType('child')}
+            onClick={() => setRelationship('child')}
           >
             Ребенок
           </li>
