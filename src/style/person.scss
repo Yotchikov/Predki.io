@@ -16,6 +16,7 @@
   padding-top: 45px;
   width: 14rem;
   border: solid 1px $bg-light-color;
+  color: $text-color;
 }
 
 .avatar {
@@ -36,10 +37,6 @@
   max-height: 100px;
   transition: 0.3s;
   z-index: 1000;
-}
-
-.person .avatar:hover img {
-  top: -35px;
 }
 
 .person .buttons {
@@ -68,15 +65,6 @@
 .person .btn-edit:focus,
 .person .btn-trash:focus {
   box-shadow: none;
-}
-
-.person-body {
-  color: $text-color;
-}
-
-.person-body:hover {
-  color: $text-color;
-  text-decoration: none;
 }
 
 .person-body .name {
@@ -114,5 +102,5 @@
 
 .choose-relative .selected {
   background-color: $main-light-color;
-  border: none;
+  border-color: $main-light-color;
 }

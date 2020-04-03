@@ -27,6 +27,7 @@ export const PersonCard = ({
     : '';
 
   const [relationship, setRelationship] = useState('parent');
+  const [hovered, setHovered] = useState(false);
   const style = selected ? { border: 'solid 1px #d048b6' } : null;
 
   const handleBodyClick = () => {
@@ -44,8 +45,18 @@ export const PersonCard = ({
 
   return (
     <div className="person">
-      <div className="avatar">
-        <img src={nouser} alt="" />
+      <div
+        className="avatar"
+        onMouseEnter={() => setHovered(!hovered)}
+        onMouseLeave={() => setHovered(!hovered)}
+      >
+        <img
+          src={nouser}
+          style={
+            handlePersonSelection ? null : hovered ? { top: -35 + 'px' } : null
+          }
+          onClick={handleBodyClick}
+        />
         <div className="buttons">
           <button className="btn btn-edit">
             <i className="fa fa-pencil" aria-hidden="true"></i>
