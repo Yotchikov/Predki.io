@@ -15,6 +15,7 @@
   padding: 0.5rem;
   padding-top: 45px;
   width: 14rem;
+  border: solid 1px $bg-light-color;
 }
 
 .avatar {
@@ -83,14 +84,34 @@
   margin-top: 1rem;
 }
 
-.person-body .age {
+.person-body .info {
+  font-size: 0.8rem;
+  margin: 0.5rem;
+}
+
+.person-body .info a {
+  color: $text-color;
   font-size: 0.8rem;
 }
 
-.person-body a {
-  color: $text-color;
+.person-body .info a:hover {
+  text-decoration: underline;
 }
 
-.person-body a:hover {
-  text-decoration: underline;
+.choose-relative {
+  margin-top: 1rem;
+  width: 14rem !important;
+}
+
+.choose-relative li {
+  background-color: $bg-light-color;
+  padding: 0.25rem 0 0.25rem 0;
+  font-weight: 600;
+  font-size: 0.8rem;
+  width: 33%;
+}
+
+.choose-relative .active {
+  background-color: $main-light-color;
+  border: none;
 }

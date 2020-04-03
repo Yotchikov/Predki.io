@@ -168,7 +168,7 @@ export const Tree = ({ people, families }) => {
   const treeLayout = () => {
     const renderedFamilies = [];
 
-    renderedFamilies.push(familyLayout(families.docs[0], 0));
+    renderedFamilies.push(familyLayout(families.docs[5], 0));
     while (familiesToRender.length !== 0) {
       renderedFamilies.push(
         familyLayout(findById(familiesToRender[0][0]), familiesToRender[0][1])

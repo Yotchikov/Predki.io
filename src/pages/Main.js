@@ -4,9 +4,10 @@ import app from '../base';
 import { AuthContext } from '../context/Auth';
 import { Loading } from '../pages/Loading';
 
-export const Main = () => {
+export const Main = ({ status }) => {
   const [people, setPeople] = useState(null);
   const [families, setFamilies] = useState(null);
+  const [relative, setRelative] = useState(null);
   const { currentUser } = useContext(AuthContext);
 
   // Fetching data
@@ -31,8 +32,16 @@ export const Main = () => {
     fetchData();
   }, [currentUser.uid]);
 
+  const getRelative = (id, option) => {};
+
   if (people && families) {
-    return <Tree people={people} families={families} />;
+    return (
+      <Tree
+        people={people}
+        families={families}
+        handleClick={status === 'add' ? getRelative : null}
+      />
+    );
   } else {
     return <Loading />;
   }

@@ -2,7 +2,7 @@ import React, { useState, useContext, useCallback } from 'react';
 import { AuthContext } from '../context/Auth';
 import { SelectDate } from '../components/SelectDate';
 import app from '../base';
-import { Tree } from '../components/Tree';
+import { Main } from './Main';
 
 export const Add = ({ history }) => {
   const [addStatus, setAddStatus] = useState(false);
@@ -48,7 +48,8 @@ export const Add = ({ history }) => {
               year: deathyear.value
             },
             nativeCity: nativeCity.value,
-            sex: sex.value
+            sex: sex.value,
+            bio: bio.value
           });
         setAddStatus(true);
       } catch (error) {
@@ -59,7 +60,7 @@ export const Add = ({ history }) => {
   );
 
   if (addStatus) {
-    return <Tree />;
+    return <Main />;
   }
   return (
     <div className="form-wrapper">
@@ -100,8 +101,8 @@ export const Add = ({ history }) => {
         </div>
         <div className="form-row">
           <div className="col-6 form-group">
-            <label htmlFor="birthday">Дата рождения</label>
-            <SelectDate required={true} typeOfDate="birth" />
+            <label htmlFor="birthday">Дата рождения *</label>
+            <SelectDate required={false} typeOfDate="birth" />
           </div>
           <div className="col-6 form-group">
             <label htmlFor="deathday">Дата смерти *</label>
