@@ -86,3 +86,11 @@
 .person-body .age {
   font-size: 0.8rem;
 }
+
+.person-body a {
+  color: $text-color;
+}
+
+.person-body a:hover {
+  text-decoration: underline;
+}

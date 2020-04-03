@@ -40,8 +40,15 @@ export const PersonCard = ({ person }) => {
           {birthDate}
           {deathDate !== '' ? ' - ' + deathDate : deathDate}
           <br />
-          <i className="fa fa-map-marker" aria-hidden="true"></i>
-          {' ' + person.nativeCity}
+          <a
+            href={
+              'https://www.google.ru/maps/search/' +
+              person.nativeCity
+            }
+          >
+            <i className="fa fa-map-marker" aria-hidden="true"></i>
+            {' ' + person.nativeCity}
+          </a>
         </p>
       </a>
     </div>
