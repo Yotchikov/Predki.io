@@ -55,8 +55,8 @@ export const PersonCard = ({
     <div className="person">
       <div
         className="avatar"
-        onMouseEnter={() => setAvatarHovered(!avatarHovered)}
-        onMouseLeave={() => setAvatarHovered(!avatarHovered)}
+        onMouseEnter={() => setAvatarHovered(true)}
+        onMouseLeave={() => setAvatarHovered(false)}
       >
         <img
           src={nouser}
@@ -84,8 +84,8 @@ export const PersonCard = ({
         className="person-body"
         style={selected || bodyHovered ? style : null}
         onClick={handleBodyClick}
-        onMouseEnter={() => setBodyHovered(!bodyHovered)}
-        onMouseLeave={() => setBodyHovered(!bodyHovered)}
+        onMouseEnter={() => setBodyHovered(true)}
+        onMouseLeave={() => setBodyHovered(false)}
       >
         <h6 className="name">
           {personData.firstName +
