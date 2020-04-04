@@ -4,7 +4,7 @@ import app from '../base';
 import { AuthContext } from '../context/Auth';
 import { Loading } from '../pages/Loading';
 
-export const Main = ({newPerson}) => {
+export const Main = ({ newPerson }) => {
   const [people, setPeople] = useState(null);
   const [families, setFamilies] = useState(null);
   const [relative, setRelative] = useState(null);
@@ -32,13 +32,20 @@ export const Main = ({newPerson}) => {
     fetchData();
   }, [currentUser.uid]);
 
-  const getRelative = newPerson ? (id, relationship) => {
-    console.log('hi');
-  } : null;
+  const newRelative = newPerson
+    ? (id, relationship) => {
+        alert(`person ${id} is ${relationship}`);
+      }
+    : null;
 
   if (people && families) {
     return (
-      <Tree people={people} families={families} candidate={newPerson} sendRelative={getRelative} />
+      <Tree
+        people={people}
+        families={families}
+        candidate={newPerson}
+        sendRelative={newRelative}
+      />
     );
   } else {
     return <Loading />;

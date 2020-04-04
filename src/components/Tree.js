@@ -93,7 +93,7 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
   };
 
   const [selectedPersonId, setSelectedPersonId] = useState(null);
-  const [relationship, setRelationship] = useState(null);
+  const [selectedRelationship, setSelectedRelationship] = useState(null);
 
   const drawenFamilies = [];
   const familiesToRender = [];
@@ -121,13 +121,16 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
         if (id !== selectedPersonId) {
           setSelectedPersonId(id);
         }
+        if (relationship !== selectedRelationship) {
+          setSelectedRelationship(relationship);
+        }
       }
     : null;
 
   const handleClick = sendRelative
     ? () => {
         if (selectedPersonId) {
-          sendRelative(selectedPersonId, relationship);
+          sendRelative(selectedPersonId, selectedRelationship);
         }
       }
     : null;
