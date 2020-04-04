@@ -21,8 +21,8 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
                 !familyData.wife && candidate.sex === 'Женский',
                 familyData.husbandFamily
                   ? candidate.sex === 'Мужской'
-                    ? !familyData.husbandFamily.husband
-                    : !familyData.husbandFamily.wife
+                    ? !findById(familyData.husbandFamily).data().husband
+                    : !findById(familyData.husbandFamily).data().wife
                   : true
               ]}
             />
@@ -37,8 +37,8 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
                 !familyData.husband && candidate.sex === 'Мужской',
                 familyData.wifeFamily
                   ? candidate.sex === 'Мужской'
-                    ? !familyData.wifeFamily.husband
-                    : !familyData.wifeFamily.wife
+                    ? !findById(familyData.wifeFamily).data().husband
+                    : !findById(familyData.wifeFamily).data().wife
                   : true
               ]}
             />
