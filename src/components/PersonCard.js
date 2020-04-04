@@ -111,7 +111,9 @@ export const PersonCard = ({
         <ul className="list-group list-group-horizontal choose-relative">
           <li
             className={
-              'list-group-item ' + (relationship === 'parent' ? 'selected' : '')
+              'list-group-item ' +
+              (relationship === 'parent' ? 'selected ' : ' ') +
+              (bannedRoles[0] ? null : 'banned')
             }
             onClick={() => handleRelationshipClick('parent')}
           >
@@ -119,7 +121,9 @@ export const PersonCard = ({
           </li>
           <li
             className={
-              'list-group-item ' + (relationship === 'spouse' ? 'selected' : '')
+              'list-group-item ' +
+              (relationship === 'spouse' ? 'selected ' : ' ') +
+              (bannedRoles[1] ? null : 'banned')
             }
             onClick={() => handleRelationshipClick('spouse')}
           >
@@ -127,7 +131,9 @@ export const PersonCard = ({
           </li>
           <li
             className={
-              'list-group-item ' + (relationship === 'child' ? 'selected' : '')
+              'list-group-item ' +
+              (relationship === 'child' ? 'selected ' : ' ') +
+              (bannedRoles[2] ? null : 'banned')
             }
             onClick={() => handleRelationshipClick('child')}
           >

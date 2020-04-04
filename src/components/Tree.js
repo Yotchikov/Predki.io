@@ -8,64 +8,88 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
   const Family = (family, depth) => {
     const familyData = family.data();
 
-    return (
-      <div id={family.id} className="family">
-        <div className="tree-row">
-          {familyData.husband ? (
-            <PersonCard
-              person={findById(familyData.husband)}
-              handlePersonSelection={handlePersonSelection}
-              selected={selectedPersonId === familyData.husband}
-              bannedRoles={[
-                true,
-                !familyData.wife && candidate.sex === 'Женский',
-                familyData.husbandFamily
-                  ? candidate.sex === 'Мужской'
-                    ? !findById(familyData.husbandFamily).data().husband
-                    : !findById(familyData.husbandFamily).data().wife
-                  : true
-              ]}
-            />
-          ) : null}
-          {familyData.wife ? (
-            <PersonCard
-              person={findById(familyData.wife)}
-              handlePersonSelection={handlePersonSelection}
-              selected={selectedPersonId === familyData.wife}
-              bannedRoles={[
-                true,
-                !familyData.husband && candidate.sex === 'Мужской',
-                familyData.wifeFamily
-                  ? candidate.sex === 'Мужской'
-                    ? !findById(familyData.wifeFamily).data().husband
-                    : !findById(familyData.wifeFamily).data().wife
-                  : true
-              ]}
-            />
-          ) : null}
-        </div>
-        <div className="tree-row">
-          {familyData.children.map(child =>
-            child.startsWith('_') ? (
-              familyLayout(findById(child), depth + 1, family.id)
-            ) : (
+    if (candidate) {
+      return (
+        <div id={family.id} className="family">
+          <div className="tree-row">
+            {familyData.husband ? (
               <PersonCard
-                person={findById(child)}
+                person={findById(familyData.husband)}
                 handlePersonSelection={handlePersonSelection}
-                selected={selectedPersonId === child}
+                selected={selectedPersonId === familyData.husband}
                 bannedRoles={[
                   true,
-                  candidate.sex !== findById(child).data().sex,
-                  candidate.sex === 'Мужской'
-                    ? !familyData.husband
-                    : !familyData.wife
+                  !familyData.wife && candidate.sex === 'Женский',
+                  familyData.husbandFamily
+                    ? candidate.sex === 'Мужской'
+                      ? !findById(familyData.husbandFamily).data().husband
+                      : !findById(familyData.husbandFamily).data().wife
+                    : true
                 ]}
               />
-            )
-          )}
+            ) : null}
+            {familyData.wife ? (
+              <PersonCard
+                person={findById(familyData.wife)}
+                handlePersonSelection={handlePersonSelection}
+                selected={selectedPersonId === familyData.wife}
+                bannedRoles={[
+                  true,
+                  !familyData.husband && candidate.sex === 'Мужской',
+                  familyData.wifeFamily
+                    ? candidate.sex === 'Мужской'
+                      ? !findById(familyData.wifeFamily).data().husband
+                      : !findById(familyData.wifeFamily).data().wife
+                    : true
+                ]}
+              />
+            ) : null}
+          </div>
+          <div className="tree-row">
+            {familyData.children.map(child =>
+              child.startsWith('_') ? (
+                familyLayout(findById(child), depth + 1, family.id)
+              ) : (
+                <PersonCard
+                  person={findById(child)}
+                  handlePersonSelection={handlePersonSelection}
+                  selected={selectedPersonId === child}
+                  bannedRoles={[
+                    true,
+                    candidate.sex !== findById(child).data().sex,
+                    candidate.sex === 'Мужской'
+                      ? !familyData.husband
+                      : !familyData.wife
+                  ]}
+                />
+              )
+            )}
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div id={family.id} className="family">
+          <div className="tree-row">
+            {familyData.husband ? (
+              <PersonCard person={findById(familyData.husband)} />
+            ) : null}
+            {familyData.wife ? (
+              <PersonCard person={findById(familyData.wife)} />
+            ) : null}
+          </div>
+          <div className="tree-row">
+            {familyData.children.map(child =>
+              child.startsWith('_') ? (
+                familyLayout(findById(child), depth + 1, family.id)
+              ) : (
+                <PersonCard person={findById(child)} />
+              )
+            )}
+          </div>
+        </div>
+      );
+    }
   };
 
   const [selectedPersonId, setSelectedPersonId] = useState(null);

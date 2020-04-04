@@ -6,9 +6,49 @@ import { Main } from './Main';
 
 export const Add = ({ history }) => {
   const [addStatus, setAddStatus] = useState(false);
+  const [candidate, setCandidate] = useState(null);
   const { currentUser } = useContext(AuthContext);
 
-  const handleAdd = useCallback(
+  const handleAdd = event => {
+    event.preventDefault();
+    const {
+      firstName,
+      secondName,
+      lastName,
+      birthday,
+      birthmonth,
+      birthyear,
+      deathday,
+      deathmonth,
+      deathyear,
+      nativeCity,
+      sex,
+      bio
+    } = event.target.elements;
+
+    setCandidate({
+      firstName: firstName.value,
+      secondName: secondName.value,
+      lastName: lastName.value,
+      birthDate: {
+        day: birthday.value,
+        month: birthmonth.value,
+        year: birthyear.value
+      },
+      deathDate: {
+        day: deathday.value,
+        month: deathmonth.value,
+        year: deathyear.value
+      },
+      nativeCity: nativeCity.value,
+      sex: sex.value,
+      bio: bio.value
+    });
+
+    setAddStatus(true);
+  };
+
+  /*const handleAdd = useCallback(
     async event => {
       event.preventDefault();
 
@@ -57,11 +97,12 @@ export const Add = ({ history }) => {
       }
     },
     [history]
-  );
+  );*/
 
   if (addStatus) {
-    return <Main />;
+    return <Main newPerson={candidate} />;
   }
+
   return (
     <div className="form-wrapper">
       <form className="add" onSubmit={handleAdd} autoComplete="nope">
