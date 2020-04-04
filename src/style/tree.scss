@@ -25,7 +25,7 @@
 }
 
 .message {
-  z-index: 900;
+  z-index: 300;
   background-color: $text-color;
   color: $bg-light-color;
   font-weight: 600;
@@ -34,17 +34,30 @@
   border-radius: 0.25rem;
   box-shadow: 0 1px 20px 0 rgba(0, 0, 0, 0.1);
   padding: 0.5rem;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .message .btn-submit {
   color: $text-color;
-  background-color: $main-color;
+  background-color: $main-light-color;
   font-weight: 600;
   &:hover {
-    background-color: #7428a3;
+    background-color: $main-color;
     color: $text-color;
   }
   &:focus {
     box-shadow: none;
+  }
+  &:disabled {
+    pointer-events: none;
+    &:hover {
+      background-color: $main-light-color;
+    }
   }
 }

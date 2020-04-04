@@ -93,6 +93,7 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
   };
 
   const [selectedPersonId, setSelectedPersonId] = useState(null);
+  const [relationship, setRelationship] = useState(null);
 
   const drawenFamilies = [];
   const familiesToRender = [];
@@ -119,6 +120,14 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
     ? (id, relationship) => {
         if (id !== selectedPersonId) {
           setSelectedPersonId(id);
+        }
+      }
+    : null;
+
+  const handleClick = sendRelative
+    ? () => {
+        if (selectedPersonId) {
+          sendRelative(selectedPersonId, relationship);
         }
       }
     : null;
@@ -239,12 +248,21 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
 
   return (
     <>
-      <div className="position-absolute w-100 mt-3 d-flex justify-content-center">
-        <div className="message">
-          <div>Отметьте ближайшего родственника</div>
-          <button className="btn ml-3 btn-submit">Добавить</button>
+      {candidate ? (
+        <div className="position-absolute w-100 mt-3 d-flex justify-content-center">
+          <div className="message">
+            <div>Отметьте ближайшего родственника</div>
+            <button
+              className="btn ml-3 btn-submit"
+              onClick={handleClick}
+              disabled={!selectedPersonId}
+            >
+              Добавить
+            </button>
+          </div>
         </div>
-      </div>
+      ) : null}
+
       <div className="tree-container">
         <div className="tree">{treeLayout()}</div>
       </div>
