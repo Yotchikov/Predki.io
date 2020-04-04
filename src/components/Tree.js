@@ -238,8 +238,16 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
   };
 
   return (
-    <div className="tree-container">
-      <div className="tree">{treeLayout()}</div>
-    </div>
+    <>
+      <div className="position-absolute w-100 mt-3 d-flex justify-content-center">
+        <div className="message">
+          <div>Отметьте ближайшего родственника</div>
+          <button className="btn ml-3 btn-submit">Добавить</button>
+        </div>
+      </div>
+      <div className="tree-container">
+        <div className="tree">{treeLayout()}</div>
+      </div>
+    </>
   );
 };

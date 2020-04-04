@@ -23,3 +23,28 @@
 .family {
   display: inline-block;
 }
+
+.message {
+  z-index: 900;
+  background-color: $text-color;
+  color: $bg-light-color;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.25rem;
+  box-shadow: 0 1px 20px 0 rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+}
+
+.message .btn-submit {
+  color: $text-color;
+  background-color: $main-color;
+  font-weight: 600;
+  &:hover {
+    background-color: #7428a3;
+    color: $text-color;
+  }
+  &:focus {
+    box-shadow: none;
+  }
+}
