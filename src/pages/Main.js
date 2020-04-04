@@ -4,11 +4,30 @@ import app from '../base';
 import { AuthContext } from '../context/Auth';
 import { Loading } from '../pages/Loading';
 
-export const Main = ({ status }) => {
+export const Main = ({ }) => {
   const [people, setPeople] = useState(null);
   const [families, setFamilies] = useState(null);
   const [relative, setRelative] = useState(null);
   const { currentUser } = useContext(AuthContext);
+
+  const newPerson = {
+    firstName: 'Валентин',
+    secondName: 'Витальевич',
+    lastName: 'Фарафонов',
+    birthDate: {
+      day: '6',
+      month: 'Марта',
+      year: '1975'
+    },
+    deathDate: {
+      day: '',
+      month: '',
+      year: ''
+    },
+    nativeCity: 'Алма-Ата',
+    sex: 'Мужской',
+    bio: ''
+  }
 
   // Fetching data
   useEffect(() => {
@@ -38,7 +57,7 @@ export const Main = ({ status }) => {
 
   if (people && families) {
     return (
-      <Tree people={people} families={families} sendRelative={getRelative} />
+      <Tree people={people} families={families} candidate={newPerson} sendRelative={getRelative} />
     );
   } else {
     return <Loading />;

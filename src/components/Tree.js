@@ -4,7 +4,70 @@ import { PersonCard } from './PersonCard';
 import '../style/tree.scss';
 import { useState } from 'react';
 
-export const Tree = ({ people, families, sendRelative }) => {
+export const Tree = ({ people, families, candidate, sendRelative }) => {
+  const Family = (family, depth) => {
+    const familyData = family.data();
+
+    return (
+      <div id={family.id} className="family">
+        <div className="tree-row">
+          {familyData.husband ? (
+            <PersonCard
+              person={findById(familyData.husband)}
+              handlePersonSelection={handlePersonSelection}
+              selected={selectedPersonId === familyData.husband}
+              bannedRoles={[
+                true,
+                !familyData.wife && candidate.sex === 'Женский',
+                familyData.husbandFamily
+                  ? candidate.sex === 'Мужской'
+                    ? !familyData.husbandFamily.husband
+                    : !familyData.husbandFamily.wife
+                  : true
+              ]}
+            />
+          ) : null}
+          {familyData.wife ? (
+            <PersonCard
+              person={findById(familyData.wife)}
+              handlePersonSelection={handlePersonSelection}
+              selected={selectedPersonId === familyData.wife}
+              bannedRoles={[
+                true,
+                !familyData.husband && candidate.sex === 'Мужской',
+                familyData.wifeFamily
+                  ? candidate.sex === 'Мужской'
+                    ? !familyData.wifeFamily.husband
+                    : !familyData.wifeFamily.wife
+                  : true
+              ]}
+            />
+          ) : null}
+        </div>
+        <div className="tree-row">
+          {familyData.children.map(child =>
+            child.startsWith('_') ? (
+              familyLayout(findById(child), depth + 1, family.id)
+            ) : (
+              <PersonCard
+                person={findById(child)}
+                handlePersonSelection={handlePersonSelection}
+                selected={selectedPersonId === child}
+                bannedRoles={[
+                  true,
+                  candidate.sex !== findById(child).data().sex,
+                  candidate.sex === 'Мужской'
+                    ? !familyData.husband
+                    : !familyData.wife
+                ]}
+              />
+            )
+          )}
+        </div>
+      </div>
+    );
+  };
+
   const [selectedPersonId, setSelectedPersonId] = useState(null);
 
   const drawenFamilies = [];
@@ -64,35 +127,7 @@ export const Tree = ({ people, families, sendRelative }) => {
         !familyData.husbandFamily &&
         drawenFamilies.indexOf(familyData.wifeFamily) !== -1)
     ) {
-      return (
-        <div id={family.id} className="family">
-          <div className="tree-row">
-            <PersonCard
-              person={findById(familyData.husband)}
-              handlePersonSelection={handlePersonSelection}
-              selected={selectedPersonId === familyData.husband}
-            />
-            <PersonCard
-              person={findById(familyData.wife)}
-              handlePersonSelection={handlePersonSelection}
-              selected={selectedPersonId === familyData.wife}
-            />
-          </div>
-          <div className="tree-row">
-            {familyData.children.map(child =>
-              child.startsWith('_') ? (
-                familyLayout(findById(child), depth + 1, family.id)
-              ) : (
-                <PersonCard
-                  person={findById(child)}
-                  handlePersonSelection={handlePersonSelection}
-                  selected={selectedPersonId === child}
-                />
-              )
-            )}
-          </div>
-        </div>
-      );
+      return Family(family, depth);
     }
 
     // Есть только мужская родительская ветка и она еще не отрисована
@@ -131,35 +166,7 @@ export const Tree = ({ people, families, sendRelative }) => {
       drawenFamilies.indexOf(familyData.wifeFamily) === -1
     ) {
       familiesToRender.push([familyData.wifeFamily, depth - 1]);
-      return (
-        <div id={family.id} className="family">
-          <div className="tree-row">
-            <PersonCard
-              person={findById(familyData.husband)}
-              handlePersonSelection={handlePersonSelection}
-              selected={selectedPersonId === familyData.husband}
-            />
-            <PersonCard
-              person={findById(familyData.wife)}
-              handlePersonSelection={handlePersonSelection}
-              selected={selectedPersonId === familyData.wife}
-            />
-          </div>
-          <div className="tree-row">
-            {familyData.children.map(child =>
-              child.startsWith('_') ? (
-                familyLayout(findById(child), depth + 1, family.id)
-              ) : (
-                <PersonCard
-                  person={findById(child)}
-                  handlePersonSelection={handlePersonSelection}
-                  selected={selectedPersonId === child}
-                />
-              )
-            )}
-          </div>
-        </div>
-      );
+      return Family(family, depth);
     }
 
     // Есть обе родительские ветки и женская уже отрисована
@@ -180,35 +187,9 @@ export const Tree = ({ people, families, sendRelative }) => {
       drawenFamilies.indexOf(familyData.husbandFamily) !== -1 &&
       drawenFamilies.indexOf(familyData.wifeFamily) !== -1
     ) {
-      return familyData.husbandFamily === parentsId ? (
-        <div id={family.id} className="family">
-          <div className="tree-row">
-            <PersonCard
-              person={findById(familyData.husband)}
-              handlePersonSelection={handlePersonSelection}
-              selected={selectedPersonId === familyData.husband}
-            />
-            <PersonCard
-              person={findById(familyData.wife)}
-              handlePersonSelection={handlePersonSelection}
-              selected={selectedPersonId === familyData.wife}
-            />
-          </div>
-          <div className="tree-row">
-            {familyData.children.map(child =>
-              child.startsWith('_') ? (
-                familyLayout(findById(child), depth + 1, family.id)
-              ) : (
-                <PersonCard
-                  person={findById(child)}
-                  handlePersonSelection={handlePersonSelection}
-                  selected={selectedPersonId === child}
-                />
-              )
-            )}
-          </div>
-        </div>
-      ) : null;
+      return familyData.husbandFamily === parentsId
+        ? Family(family, depth)
+        : null;
     }
   };
 

@@ -6,7 +6,8 @@ import { useState } from 'react';
 export const PersonCard = ({
   person,
   handlePersonSelection,
-  selected = false
+  selected = false,
+  bannedRoles
 }) => {
   const personData = person.data();
 
@@ -27,8 +28,9 @@ export const PersonCard = ({
     : '';
 
   const [relationship, setRelationship] = useState('parent');
-  const [hovered, setHovered] = useState(false);
-  const style = selected ? { border: 'solid 1px #d048b6' } : null;
+  const [avatarHovered, setAvatarHovered] = useState(false);
+  const [bodyHovered, setBodyHovered] = useState(false);
+  const style = handlePersonSelection ? { border: 'solid 1px #d048b6' } : null;
 
   const handleBodyClick = () => {
     if (handlePersonSelection) {
@@ -37,9 +39,15 @@ export const PersonCard = ({
   };
 
   const handleRelationshipClick = msg => {
-    setRelationship(msg);
-    if (handlePersonSelection) {
-      handlePersonSelection(person.id, msg);
+    if (
+      (msg === 'parent' && bannedRoles[0]) ||
+      (msg === 'spouse' && bannedRoles[1]) ||
+      (msg === 'child' && bannedRoles[2])
+    ) {
+      setRelationship(msg);
+      if (handlePersonSelection) {
+        handlePersonSelection(person.id, msg);
+      }
     }
   };
 
@@ -47,26 +55,38 @@ export const PersonCard = ({
     <div className="person">
       <div
         className="avatar"
-        onMouseEnter={() => setHovered(!hovered)}
-        onMouseLeave={() => setHovered(!hovered)}
+        onMouseEnter={() => setAvatarHovered(!avatarHovered)}
+        onMouseLeave={() => setAvatarHovered(!avatarHovered)}
       >
         <img
           src={nouser}
           style={
-            handlePersonSelection ? null : hovered ? { top: -35 + 'px' } : null
+            handlePersonSelection
+              ? null
+              : avatarHovered
+              ? { top: -35 + 'px' }
+              : null
           }
           onClick={handleBodyClick}
         />
-        <div className="buttons">
-          <button className="btn btn-edit">
-            <i className="fa fa-pencil" aria-hidden="true"></i>
-          </button>
-          <button className="btn btn-trash">
-            <i className="fa fa-trash" aria-hidden="true"></i>
-          </button>
-        </div>
+        {handlePersonSelection ? null : (
+          <div className="buttons">
+            <button className="btn btn-edit">
+              <i className="fa fa-pencil" aria-hidden="true"></i>
+            </button>
+            <button className="btn btn-trash">
+              <i className="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </div>
+        )}
       </div>
-      <div className="person-body" style={style} onClick={handleBodyClick}>
+      <div
+        className="person-body"
+        style={selected || bodyHovered ? style : null}
+        onClick={handleBodyClick}
+        onMouseEnter={() => setBodyHovered(!bodyHovered)}
+        onMouseLeave={() => setBodyHovered(!bodyHovered)}
+      >
         <h6 className="name">
           {personData.firstName +
             ' ' +
