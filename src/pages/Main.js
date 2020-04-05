@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 export const Main = ({ newPerson }) => {
   const [people, setPeople] = useState(null);
   const [families, setFamilies] = useState(null);
-  const history =useHistory();
+  const history = useHistory();
   const { currentUser } = useContext(AuthContext);
 
   // Fetching data
@@ -237,6 +237,103 @@ export const Main = ({ newPerson }) => {
                   });
               }
               break;
+            }
+            case 'child': {
+              // Ищем семью с данным ребенком в качестве мужа или жены
+              const childFamilyDoc = await db
+                .collection('users')
+                .doc(currentUser.uid)
+                .collection('families')
+                .where(
+                  relative.data().sex === 'Мужской' ? 'husband' : 'wife',
+                  '==',
+                  id
+                )
+                .get();
+
+              // Если такой семьи нет, т.е. ребенок одиночка
+              if (childFamilyDoc.empty) {
+                // Находим семью его родителя
+                const parentFamily = await db
+                  .collection('users')
+                  .doc(currentUser.uid)
+                  .collection('families')
+                  .where('children', 'array-contains', id)
+                  .get();
+
+                // Добавляем в эту семью мужа или жену
+                await db
+                  .collection('users')
+                  .doc(currentUser.uid)
+                  .collection('families')
+                  .doc(parentFamily.docs[0].id)
+                  .update({
+                    [newPerson.sex === 'Мужской'
+                      ? 'husband'
+                      : 'wife']: newPersonId
+                  });
+              } else {
+                // Находим семью его родителя
+                const familyDoc = await db
+                  .collection('users')
+                  .doc(currentUser.uid)
+                  .collection('families')
+                  .where(
+                    'children',
+                    'array-contains',
+                    childFamilyDoc.docs[0].id
+                  )
+                  .get();
+
+                // Если родительской семьи нет
+                if (familyDoc.empty) {
+                  // Создаем id новой семьи
+                  const newFamilyId =
+                    '_' +
+                    db
+                      .collection('users')
+                      .doc(currentUser.uid)
+                      .collection('families')
+                      .doc().id;
+
+                  // Создаем новую родительскую семью
+                  await db
+                    .collection('users')
+                    .doc(currentUser.uid)
+                    .collection('families')
+                    .doc(newFamilyId)
+                    .set({
+                      [newPerson.sex === 'Мужской'
+                        ? 'husband'
+                        : 'wife']: newPersonId,
+                      children: [childFamilyDoc.docs[0].id]
+                    });
+
+                  // Обновляем ссылку на родительскую семью в семье ребенка
+                  await db
+                    .collection('users')
+                    .doc(currentUser.uid)
+                    .collection('families')
+                    .doc(childFamilyDoc.docs[0].id)
+                    .update({
+                      [relative.data().sex === 'Мужской'
+                        ? 'husbandFamily'
+                        : 'wifeFamily']: newFamilyId
+                    });
+                } else {
+                  // Обновляем ссылку на мужа/жену в уже имеющейся родительской семье
+                  await db
+                    .collection('users')
+                    .doc(currentUser.uid)
+                    .collection('families')
+                    .doc(familyDoc.docs[0].id)
+                    .update({
+                      [newPerson.sex === 'Мужской'
+                        ? 'husband'
+                        : 'wife']: newPersonId
+                    });
+                }
+              }
             }
           }
 

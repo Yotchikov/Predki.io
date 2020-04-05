@@ -45,8 +45,53 @@ export const SignUp = ({ history }) => {
                     month: birthmonth.value,
                     year: birthyear.value
                   },
-                  cities: [nativeCity.value],
+                  nativeCity: nativeCity.value,
                   sex: sex.value
+                })
+                .then(() => {
+                  const newUserId = app
+                    .firestore()
+                    .collection('users')
+                    .doc(resp.user.uid)
+                    .collection('people')
+                    .doc().id;
+
+                  app
+                    .firestore()
+                    .collection('users')
+                    .doc(resp.user.uid)
+                    .collection('people')
+                    .doc(newUserId)
+                    .set({
+                      firstName: firstName.value,
+                      secondName: secondName.value,
+                      lastName: lastName.value,
+                      birthDate: {
+                        day: birthday.value,
+                        month: birthmonth.value,
+                        year: birthyear.value
+                      },
+                      nativeCity: nativeCity.value,
+                      sex: sex.value
+                    });
+                  const newFamilyId =
+                    '_' +
+                    app
+                      .firestore()
+                      .collection('users')
+                      .doc(resp.user.uid)
+                      .collection('families')
+                      .doc().id;
+                  app
+                    .firestore()
+                    .collection('users')
+                    .doc(resp.user.uid)
+                    .collection('families')
+                    .doc(newFamilyId)
+                    .set({
+                      [sex.value === 'Мужской' ? 'husband' : 'wife']: newUserId,
+                      children: []
+                    });
                 });
             });
 
@@ -163,12 +208,7 @@ export const SignUp = ({ history }) => {
                 </label>
               </li>
               <li>
-                <input
-                  type="radio"
-                  value="Женский"
-                  name="sex"
-                  id="female"
-                />
+                <input type="radio" value="Женский" name="sex" id="female" />
                 <label className="form-check-label" htmlFor="female">
                   <i className="fa fa-venus" aria-hidden="true"></i>
                 </label>
