@@ -4,11 +4,12 @@ import app from '../base';
 import { AuthContext } from '../context/Auth';
 import { Loading } from '../pages/Loading';
 import * as firebase from 'firebase';
+import { useHistory } from 'react-router-dom';
 
 export const Main = ({ newPerson }) => {
   const [people, setPeople] = useState(null);
   const [families, setFamilies] = useState(null);
-  const [relative, setRelative] = useState(null);
+  const history =useHistory();
   const { currentUser } = useContext(AuthContext);
 
   // Fetching data
@@ -62,7 +63,7 @@ export const Main = ({ newPerson }) => {
             .set(newPerson);
 
           switch (relationship) {
-            case 'parent':
+            case 'parent': {
               // Ищем, в какую семью будем добавлять нового ребенка
               const familyDoc = await db
                 .collection('users')
@@ -147,7 +148,99 @@ export const Main = ({ newPerson }) => {
                   });
               }
               break;
+            }
+            case 'spouse': {
+              // Ищем, в какую семью будем добавлять нового супруга
+              const familyDoc = await db
+                .collection('users')
+                .doc(currentUser.uid)
+                .collection('families')
+                .where(
+                  relative.data().sex === 'Мужской' ? 'husband' : 'wife',
+                  '==',
+                  id
+                )
+                .get();
+
+              if (familyDoc.empty) {
+                // Создаем id новой семьи
+                const newFamilyId =
+                  '_' +
+                  db
+                    .collection('users')
+                    .doc(currentUser.uid)
+                    .collection('families')
+                    .doc().id;
+
+                // Найдем семью тестя и тещи
+                const parentFamily = await db
+                  .collection('users')
+                  .doc(currentUser.uid)
+                  .collection('families')
+                  .where('children', 'array-contains', id)
+                  .get();
+
+                // Если такая семья есть
+                if (!parentFamily.empty) {
+                  // Заменим им в архиве детей ссылку на ребенка на ссылку на новую создаваемую семью
+                  await db
+                    .collection('users')
+                    .doc(currentUser.uid)
+                    .collection('families')
+                    .doc(parentFamily.docs[0].id)
+                    .update({
+                      children: firebase.firestore.FieldValue.arrayUnion(
+                        newFamilyId
+                      )
+                    });
+                  await db
+                    .collection('users')
+                    .doc(currentUser.uid)
+                    .collection('families')
+                    .doc(parentFamily.docs[0].id)
+                    .update({
+                      children: firebase.firestore.FieldValue.arrayRemove(id)
+                    });
+                }
+
+                // Создадим новую семью
+                await db
+                  .collection('users')
+                  .doc(currentUser.uid)
+                  .collection('families')
+                  .doc(newFamilyId)
+                  .set({
+                    [relative.data().sex === 'Мужской'
+                      ? 'husband'
+                      : 'wife']: id,
+                    [newPerson.sex === 'Мужской'
+                      ? 'husband'
+                      : 'wife']: newPersonId,
+                    [relative.data().sex === 'Мужской'
+                      ? 'husbandFamily'
+                      : 'wifeFamily']: parentFamily.empty
+                      ? null
+                      : parentFamily.docs[0].id,
+                    children: []
+                  });
+              } else {
+                // Иначе в уже готовую семью добавим нового ребенка
+                await db
+                  .collection('users')
+                  .doc(currentUser.uid)
+                  .collection('families')
+                  .doc(familyDoc.docs[0].id)
+                  .update({
+                    [newPerson.sex === 'Мужской'
+                      ? 'husband'
+                      : 'wife']: newPersonId
+                  });
+              }
+              break;
+            }
           }
+
+          history.push('/');
         } catch (error) {
           alert(error);
         }
