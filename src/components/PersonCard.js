@@ -96,7 +96,7 @@ export const PersonCard = ({
         </h6>
         <div className="info">
           {birthDate}
-          {deathDate !== '' ? ' - ' + deathDate : deathDate}
+          {deathDate !== '  ' ? ' - ' + deathDate : deathDate}
         </div>
         <div className="info">
           <a
