@@ -39,14 +39,11 @@ option {
 }
 
 ul.sex-choose {
+  display: flex;
+  justify-content: space-around;
   list-style: none;
   padding: 0;
   margin: 0;
-}
-
-ul.sex-choose li {
-  display: inline-block;
-  margin-right: 0.5rem;
 }
 
 ul.sex-choose input {

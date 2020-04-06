@@ -1,15 +1,70 @@
-import React, { useState, useContext, useCallback } from 'react';
-import { AuthContext } from '../context/Auth';
+import React, { useState } from 'react';
 import { SelectDate } from '../components/SelectDate';
-import app from '../base';
 import { Main } from './Main';
 
-export const Add = ({ history }) => {
-  const [addStatus, setAddStatus] = useState(false);
+export const Add = ({ person }) => {
   const [candidate, setCandidate] = useState(null);
-  const { currentUser } = useContext(AuthContext);
+  const [firstName, setFirstName] = useState(person ? person.firstName : '');
+  const [secondName, setSecondName] = useState(person ? person.secondName : '');
+  const [lastName, setLastName] = useState(person ? person.lastName : '');
+  const [birthday, setBirthday] = useState(person ? person.birthday : '');
+  const [birthmonth, setBirthmonth] = useState(person ? person.birthmonth : '');
+  const [birthyear, setBirthyear] = useState(person ? person.birthyear : '');
+  const [deathday, setDeathday] = useState(person ? person.deathday : '');
+  const [deathmonth, setDeathmonth] = useState(person ? person.deathmonth : '');
+  const [deathyear, setDeathyear] = useState(person ? person.deathyear : '');
+  const [nativeCity, setNativeCity] = useState(person ? person.nativeCity : '');
+  const [sex, setSex] = useState(person ? person.sex : '');
+  const [bio, setBio] = useState(person ? person.bio : '');
 
-  const handleAdd = event => {
+  const handleInput = (event) => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    switch (name) {
+      case 'firstName':
+        setFirstName(value);
+        break;
+      case 'secondName':
+        setSecondName(value);
+        break;
+      case 'lastName':
+        setLastName(value);
+      case 'birthday':
+        setBirthday(value);
+        break;
+      case 'birthmonth':
+        setBirthmonth(value);
+        break;
+      case 'birthyear':
+        setBirthyear(value);
+        break;
+      case 'deathday':
+        setDeathday(value);
+        break;
+      case 'deathmonth':
+        setDeathmonth(value);
+        break;
+      case 'deathyear':
+        setDeathyear(value);
+        break;
+      case 'nativeCity':
+        setNativeCity(value);
+        break;
+      case 'sex':
+        setSex(value);
+        break;
+      case 'bio':
+        setBio(value);
+        break;
+      default:
+        console.log('Strange feature detected');
+        break;
+    }
+  };
+
+  const handleAdd = (event) => {
     event.preventDefault();
     const {
       firstName,
@@ -23,7 +78,7 @@ export const Add = ({ history }) => {
       deathyear,
       nativeCity,
       sex,
-      bio
+      bio,
     } = event.target.elements;
 
     setCandidate({
@@ -33,73 +88,20 @@ export const Add = ({ history }) => {
       birthDate: {
         day: birthday.value,
         month: birthmonth.value,
-        year: birthyear.value
+        year: birthyear.value,
       },
       deathDate: {
         day: deathday.value,
         month: deathmonth.value,
-        year: deathyear.value
+        year: deathyear.value,
       },
       nativeCity: nativeCity.value,
       sex: sex.value,
-      bio: bio.value
+      bio: bio.value,
     });
-
-    setAddStatus(true);
   };
 
-  /*const handleAdd = useCallback(
-    async event => {
-      event.preventDefault();
-
-      const {
-        firstName,
-        secondName,
-        lastName,
-        birthday,
-        birthmonth,
-        birthyear,
-        deathday,
-        deathmonth,
-        deathyear,
-        nativeCity,
-        sex,
-        bio
-      } = event.target.elements;
-
-      try {
-        app
-          .firestore()
-          .collection('users')
-          .doc(currentUser.uid)
-          .collection('people')
-          .add({
-            firstName: firstName.value,
-            secondName: secondName.value,
-            lastName: lastName.value,
-            birthDate: {
-              day: birthday.value,
-              month: birthmonth.value,
-              year: birthyear.value
-            },
-            deathDate: {
-              day: deathday.value,
-              month: deathmonth.value,
-              year: deathyear.value
-            },
-            nativeCity: nativeCity.value,
-            sex: sex.value,
-            bio: bio.value
-          });
-        setAddStatus(true);
-      } catch (error) {
-        alert(error);
-      }
-    },
-    [history]
-  );*/
-
-  if (addStatus) {
+  if (candidate) {
     return <Main newPerson={candidate} />;
   }
 
@@ -115,6 +117,7 @@ export const Add = ({ history }) => {
               id="lastName"
               className="form-control"
               placeholder="Иванов"
+              value={lastName}
               required
             />
           </div>
@@ -126,6 +129,7 @@ export const Add = ({ history }) => {
               id="firstName"
               className="form-control"
               placeholder="Иван"
+              value={firstName}
               required
             />
           </div>
@@ -137,6 +141,7 @@ export const Add = ({ history }) => {
               id="secondName"
               className="form-control"
               placeholder="Иванович"
+              value={secondName}
             />
           </div>
         </div>
@@ -158,14 +163,8 @@ export const Add = ({ history }) => {
               className="form-control"
               id="nativeCity"
               placeholder="Город"
+              value={nativeCity}
             />
-          </div>
-          <div className="col-5 form-group">
-            <label htmlFor="photo">Фотография *</label>
-            <label className="form-control">
-              Выбрать файл
-              <input name="photo" type="file" hidden />
-            </label>
           </div>
           <div className="col-1 form-group">
             <label htmlFor="sex">Пол</label>
@@ -176,6 +175,7 @@ export const Add = ({ history }) => {
                   value="Мужской"
                   name="sex"
                   id="male"
+                  value={sex}
                   defaultChecked
                 />
                 <label className="form-check-label" htmlFor="male">
@@ -183,12 +183,25 @@ export const Add = ({ history }) => {
                 </label>
               </li>
               <li>
-                <input type="radio" value="Женский" name="sex" id="female" />
+                <input
+                  type="radio"
+                  value="Женский"
+                  name="sex"
+                  id="female"
+                  value={sex}
+                />
                 <label className="form-check-label" htmlFor="female">
                   <i className="fa fa-venus" aria-hidden="true"></i>
                 </label>
               </li>
             </ul>
+          </div>
+          <div className="col-5 form-group">
+            <label htmlFor="photo">Фотография *</label>
+            <label className="form-control">
+              Выбрать файл
+              <input name="photo" type="file" hidden />
+            </label>
           </div>
         </div>
         <div className="form-group">
@@ -197,6 +210,7 @@ export const Add = ({ history }) => {
             className="form-control"
             name="bio"
             placeholder="Места обучения, профессиональные интересы, интересные факты из жизни и т.д."
+            value={bio}
           ></textarea>
         </div>
         <div className="mt-4">
