@@ -11,10 +11,10 @@ const oddMonths = [
 ];
 const evenMonths = ['Апреля', 'Июня', 'Сентября', 'Ноября'];
 
-export const SelectDate = ({ required, typeOfDate }) => {
-  const [day, setDay] = useState('');
-  const [month, setMonth] = useState('');
-  const [year, setYear] = useState('');
+export const SelectDate = ({ personDay, personMonth, personYear, required, typeOfDate }) => {
+  const [day, setDay] = useState(personDay);
+  const [month, setMonth] = useState(personMonth);
+  const [year, setYear] = useState(personYear);
 
   const [dayOptions, setDayOptions] = useState(
     [...Array(31).keys()].map(i => <option key={i + 1}>{i + 1}</option>)

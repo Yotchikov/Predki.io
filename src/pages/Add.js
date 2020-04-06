@@ -148,11 +148,23 @@ export const Add = ({ person }) => {
         <div className="form-row">
           <div className="col-6 form-group">
             <label htmlFor="birthday">Дата рождения *</label>
-            <SelectDate required={false} typeOfDate="birth" />
+            <SelectDate
+              personDay={birthday}
+              personMonth={birthmonth}
+              personYear={birthyear}
+              required={false}
+              typeOfDate="birth"
+            />
           </div>
           <div className="col-6 form-group">
             <label htmlFor="deathday">Дата смерти *</label>
-            <SelectDate required={false} typeOfDate="death" />
+            <SelectDate
+              personDay={deathday}
+              personMonth={deathmonth}
+              personYear={deathyear}
+              required={false}
+              typeOfDate="death"
+            />
           </div>
         </div>
         <div className="form-row">
