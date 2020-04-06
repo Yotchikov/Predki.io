@@ -102,7 +102,9 @@ export const Add = ({ person }) => {
   };
 
   if (candidate) {
-    return <Main newPerson={candidate} />;
+    return (
+      <Main returnFunction={() => setCandidate(null)} newPerson={candidate} />
+    );
   }
 
   return (
@@ -118,6 +120,7 @@ export const Add = ({ person }) => {
               className="form-control"
               placeholder="Иванов"
               value={lastName}
+              onChange={handleInput}
               required
             />
           </div>
@@ -130,6 +133,7 @@ export const Add = ({ person }) => {
               className="form-control"
               placeholder="Иван"
               value={firstName}
+              onChange={handleInput}
               required
             />
           </div>
@@ -142,6 +146,7 @@ export const Add = ({ person }) => {
               className="form-control"
               placeholder="Иванович"
               value={secondName}
+              onChange={handleInput}
             />
           </div>
         </div>
@@ -176,6 +181,7 @@ export const Add = ({ person }) => {
               id="nativeCity"
               placeholder="Город"
               value={nativeCity}
+              onChange={handleInput}
             />
           </div>
           <div className="col-1 form-group">
@@ -188,6 +194,7 @@ export const Add = ({ person }) => {
                   name="sex"
                   id="male"
                   value={sex}
+                  onChange={handleInput}
                   defaultChecked
                 />
                 <label className="form-check-label" htmlFor="male">
@@ -201,6 +208,7 @@ export const Add = ({ person }) => {
                   name="sex"
                   id="female"
                   value={sex}
+                  onChange={handleInput}
                 />
                 <label className="form-check-label" htmlFor="female">
                   <i className="fa fa-venus" aria-hidden="true"></i>
@@ -223,6 +231,7 @@ export const Add = ({ person }) => {
             name="bio"
             placeholder="Места обучения, профессиональные интересы, интересные факты из жизни и т.д."
             value={bio}
+            onChange={handleInput}
           ></textarea>
         </div>
         <div className="mt-4">

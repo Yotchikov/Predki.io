@@ -3,8 +3,15 @@ import ScrollBooster from 'scrollbooster';
 import { PersonCard } from './PersonCard';
 import '../style/tree.scss';
 import { useState } from 'react';
+import { Add } from '../pages/Add';
 
-export const Tree = ({ people, families, candidate, sendRelative }) => {
+export const Tree = ({
+  people,
+  families,
+  candidate,
+  sendRelative,
+  returnFunction,
+}) => {
   const Family = (family, depth) => {
     const familyData = family.data();
 
@@ -24,7 +31,7 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
                     ? candidate.sex === 'Мужской'
                       ? !findById(familyData.husbandFamily).data().husband
                       : !findById(familyData.husbandFamily).data().wife
-                    : true
+                    : true,
                 ]}
               />
             ) : null}
@@ -40,13 +47,13 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
                     ? candidate.sex === 'Мужской'
                       ? !findById(familyData.wifeFamily).data().husband
                       : !findById(familyData.wifeFamily).data().wife
-                    : true
+                    : true,
                 ]}
               />
             ) : null}
           </div>
           <div className="tree-row">
-            {familyData.children.map(child =>
+            {familyData.children.map((child) =>
               child.startsWith('_') ? (
                 familyLayout(findById(child), depth + 1, family.id)
               ) : (
@@ -59,7 +66,7 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
                     candidate.sex !== findById(child).data().sex,
                     candidate.sex === 'Мужской'
                       ? !familyData.husband
-                      : !familyData.wife
+                      : !familyData.wife,
                   ]}
                 />
               )
@@ -79,7 +86,7 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
             ) : null}
           </div>
           <div className="tree-row">
-            {familyData.children.map(child =>
+            {familyData.children.map((child) =>
               child.startsWith('_') ? (
                 familyLayout(findById(child), depth + 1, family.id)
               ) : (
@@ -107,12 +114,12 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
       viewport,
       content,
       emulateScroll: true,
-      onUpdate: state => {
+      onUpdate: (state) => {
         content.style.transform = `translate(
             ${-state.position.x}px,
             ${-state.position.y}px
           )`;
-      }
+      },
     });
   }, []);
 
@@ -135,7 +142,7 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
       }
     : null;
 
-  const findById = id => {
+  const findById = (id) => {
     if (id.startsWith('_')) {
       return families.docs.find((element, index, array) => element.id === id);
     } else {
@@ -253,15 +260,20 @@ export const Tree = ({ people, families, candidate, sendRelative }) => {
     <>
       {candidate ? (
         <div className="position-absolute w-100 mt-3 d-flex justify-content-center">
-          <div className="message">
-            <div>Отметьте ближайшего родственника</div>
-            <button
-              className="btn ml-3 btn-submit"
-              onClick={handleClick}
-              disabled={!selectedPersonId}
-            >
-              Добавить
+          <div className="top-container">
+            <button className="btn mr-3 btn-back" onClick={returnFunction}>
+              <ion-icon name="arrow-back-circle"></ion-icon>
             </button>
+            <div className="message">
+              <div>Отметьте ближайшего родственника</div>
+              <button
+                className="btn ml-3 btn-submit"
+                onClick={handleClick}
+                disabled={!selectedPersonId}
+              >
+                Добавить
+              </button>
+            </div>
           </div>
         </div>
       ) : null}

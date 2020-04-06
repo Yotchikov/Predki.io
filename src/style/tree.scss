@@ -24,8 +24,13 @@
   display: inline-block;
 }
 
-.message {
+.top-container {
   z-index: 300;
+  display: flex;
+  align-items: center;
+}
+
+.message {
   background-color: $text-color;
   color: $bg-light-color;
   font-weight: 600;
@@ -41,6 +46,27 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.btn-back {
+  color: $text-color;
+  background-color: $main-light-color;
+  border-radius: 50%;
+  font-weight: 600;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background-color: $main-color;
+    color: $text-color;
+  }
+  &:focus {
+    box-shadow: none;
+  }
 }
 
 .message .btn-submit {

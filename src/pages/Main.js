@@ -6,7 +6,7 @@ import { Loading } from '../pages/Loading';
 import { useHistory } from 'react-router-dom';
 import add from '../addMethod';
 
-export const Main = ({ newPerson }) => {
+export const Main = ({ returnFunction, newPerson }) => {
   const [people, setPeople] = useState(null);
   const [families, setFamilies] = useState(null);
   const history = useHistory();
@@ -57,6 +57,7 @@ export const Main = ({ newPerson }) => {
         families={families}
         candidate={newPerson}
         sendRelative={addToTree}
+        returnFunction={returnFunction}
       />
     );
   } else {
