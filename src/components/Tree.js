@@ -302,7 +302,7 @@ export const Tree = ({
     const maxDepth = Math.min(...depths);
 
     return renderedFamilies.map((fam, i) => (
-      <div style={{ marginTop: 305 * (depths[i] - maxDepth) + i * 30 + 'px' }}>
+      <div style={{ marginTop: 305 * (depths[i] - maxDepth) + 'px' }}>
         {fam}
       </div>
     ));

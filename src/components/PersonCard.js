@@ -99,14 +99,18 @@ export const PersonCard = ({
           {birthDate}
           {deathDate !== '  ' ? ' - ' + deathDate : deathDate}
         </div>
-        <div className="info">
-          <a
-            href={'https://www.google.ru/maps/search/' + personData.nativeCity}
-          >
-            <i className="fa fa-map-marker" aria-hidden="true"></i>
-            {' ' + personData.nativeCity}
-          </a>
-        </div>
+        {personData.nativeCity ? (
+          <div className="info">
+            <a
+              href={
+                'https://www.google.ru/maps/search/' + personData.nativeCity
+              }
+            >
+              <i className="fa fa-map-marker" aria-hidden="true"></i>
+              {' ' + personData.nativeCity}
+            </a>
+          </div>
+        ) : null}
         <hr className={borderClassName} />
       </div>
       {selected ? (
