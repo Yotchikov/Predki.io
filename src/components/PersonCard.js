@@ -1,6 +1,6 @@
 import React from 'react';
 import '../style/person.scss';
-import nouser from '../nouser.png';
+import nouser from '../img/nouser.png';
 import { useState } from 'react';
 
 export const PersonCard = ({
