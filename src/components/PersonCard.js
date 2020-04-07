@@ -7,7 +7,7 @@ export const PersonCard = ({
   person,
   handlePersonSelection,
   selected = false,
-  bannedRoles
+  bannedRoles,
 }) => {
   const personData = person.data();
 
@@ -38,7 +38,7 @@ export const PersonCard = ({
     }
   };
 
-  const handleRelationshipClick = msg => {
+  const handleRelationshipClick = (msg) => {
     if (
       (msg === 'parent' && bannedRoles[0]) ||
       (msg === 'spouse' && bannedRoles[1]) ||
@@ -52,7 +52,7 @@ export const PersonCard = ({
   };
 
   return (
-    <div className="person">
+    <div className={person.id + ' person'}>
       <div
         className="avatar"
         onMouseEnter={() => setAvatarHovered(true)}

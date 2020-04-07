@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import ScrollBooster from 'scrollbooster';
 import { PersonCard } from './PersonCard';
 import '../style/tree.scss';
-import { useState } from 'react';
-import { Add } from '../pages/Add';
+import { SteppedLineTo } from 'react-lineto';
 
 export const Tree = ({
   people,
@@ -12,6 +11,55 @@ export const Tree = ({
   sendRelative,
   returnFunction,
 }) => {
+  const edges = () => {
+    return families.docs.map((fam) => (
+      <>
+        <SteppedLineTo
+          from={fam.data().husband}
+          to={fam.data().husbandFamily}
+          borderColor="#d048b6"
+          borderStyle="dotted"
+          within="tree"
+          delay={true}
+          zIndex={-50}
+        />
+        <SteppedLineTo
+          from={fam.data().wife}
+          to={fam.data().wifeFamily}
+          borderColor="#d048b6"
+          borderStyle="dotted"
+          within="tree"
+          delay={true}
+          zIndex={-50}
+        />
+        <SteppedLineTo
+          from={fam.data().husband}
+          to={fam.data().wife}
+          borderColor="#d048b6"
+          borderStyle="dotted"
+          within="tree"
+          delay={true}
+          zIndex={0}
+        />
+        {fam
+          .data()
+          .children.map((child) =>
+            child.startsWith('_') ? null : (
+              <SteppedLineTo
+                from={fam.id}
+                to={child}
+                borderColor="#d048b6"
+                borderStyle="dotted"
+                within="tree"
+                delay={true}
+                zIndex={0}
+              />
+            )
+          )}
+      </>
+    ));
+  };
+
   const Family = (family, depth) => {
     const familyData = family.data();
 
@@ -51,6 +99,12 @@ export const Tree = ({
                 ]}
               />
             ) : null}
+
+            <SteppedLineTo
+              from={familyData.husband}
+              to={familyData.wife}
+              delay={true}
+            />
           </div>
           <div className="tree-row">
             {familyData.children.map((child) =>
@@ -76,14 +130,16 @@ export const Tree = ({
       );
     } else {
       return (
-        <div id={family.id} className="family">
+        <div className="family">
           <div className="tree-row">
-            {familyData.husband ? (
-              <PersonCard person={findById(familyData.husband)} />
-            ) : null}
-            {familyData.wife ? (
-              <PersonCard person={findById(familyData.wife)} />
-            ) : null}
+            <div className={family.id + ' pair'}>
+              {familyData.husband ? (
+                <PersonCard person={findById(familyData.husband)} />
+              ) : null}
+              {familyData.wife ? (
+                <PersonCard person={findById(familyData.wife)} />
+              ) : null}
+            </div>
           </div>
           <div className="tree-row">
             {familyData.children.map((child) =>
@@ -250,7 +306,7 @@ export const Tree = ({
     const maxDepth = Math.min(...depths);
 
     return renderedFamilies.map((fam, i) => (
-      <div style={{ marginTop: 305 * (depths[i] - maxDepth) + 'px' }}>
+      <div style={{ marginTop: 305 * (depths[i] - maxDepth) + i * 30 + 'px' }}>
         {fam}
       </div>
     ));
@@ -279,7 +335,10 @@ export const Tree = ({
       ) : null}
 
       <div className="tree-container">
-        <div className="tree">{treeLayout()}</div>
+        <div className="tree">
+          {treeLayout()}
+          {edges()}
+        </div>
       </div>
     </>
   );
