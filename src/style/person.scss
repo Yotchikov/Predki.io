@@ -19,6 +19,24 @@
   color: $text-color;
 }
 
+.male {
+  border: none;
+  height: 2px;
+  color: #93c2de;
+  background-color: #93c2de;
+  margin-bottom: 0.5;
+  /*border: dashed 1px #93c2de;*/
+}
+
+.female {
+  border: none;
+  height: 2px;
+  color: #fec4dd;
+  background-color: #fec4dd;
+  margin-bottom: 0.5;
+  /*border: dashed 1px #fec4dd;*/
+}
+
 .avatar {
   position: relative;
   top: 50px;

@@ -67,44 +67,40 @@ export const Tree = ({
       return (
         <div id={family.id} className="family">
           <div className="tree-row">
-            {familyData.husband ? (
-              <PersonCard
-                person={findById(familyData.husband)}
-                handlePersonSelection={handlePersonSelection}
-                selected={selectedPersonId === familyData.husband}
-                bannedRoles={[
-                  true,
-                  !familyData.wife && candidate.sex === 'Женский',
-                  familyData.husbandFamily
-                    ? candidate.sex === 'Мужской'
-                      ? !findById(familyData.husbandFamily).data().husband
-                      : !findById(familyData.husbandFamily).data().wife
-                    : true,
-                ]}
-              />
-            ) : null}
-            {familyData.wife ? (
-              <PersonCard
-                person={findById(familyData.wife)}
-                handlePersonSelection={handlePersonSelection}
-                selected={selectedPersonId === familyData.wife}
-                bannedRoles={[
-                  true,
-                  !familyData.husband && candidate.sex === 'Мужской',
-                  familyData.wifeFamily
-                    ? candidate.sex === 'Мужской'
-                      ? !findById(familyData.wifeFamily).data().husband
-                      : !findById(familyData.wifeFamily).data().wife
-                    : true,
-                ]}
-              />
-            ) : null}
-
-            <SteppedLineTo
-              from={familyData.husband}
-              to={familyData.wife}
-              delay={true}
-            />
+            <div className={family.id + ' pair'}>
+              {familyData.husband ? (
+                <PersonCard
+                  person={findById(familyData.husband)}
+                  handlePersonSelection={handlePersonSelection}
+                  selected={selectedPersonId === familyData.husband}
+                  bannedRoles={[
+                    true,
+                    !familyData.wife && candidate.sex === 'Женский',
+                    familyData.husbandFamily
+                      ? candidate.sex === 'Мужской'
+                        ? !findById(familyData.husbandFamily).data().husband
+                        : !findById(familyData.husbandFamily).data().wife
+                      : true,
+                  ]}
+                />
+              ) : null}
+              {familyData.wife ? (
+                <PersonCard
+                  person={findById(familyData.wife)}
+                  handlePersonSelection={handlePersonSelection}
+                  selected={selectedPersonId === familyData.wife}
+                  bannedRoles={[
+                    true,
+                    !familyData.husband && candidate.sex === 'Мужской',
+                    familyData.wifeFamily
+                      ? candidate.sex === 'Мужской'
+                        ? !findById(familyData.wifeFamily).data().husband
+                        : !findById(familyData.wifeFamily).data().wife
+                      : true,
+                  ]}
+                />
+              ) : null}
+            </div>
           </div>
           <div className="tree-row">
             {familyData.children.map((child) =>

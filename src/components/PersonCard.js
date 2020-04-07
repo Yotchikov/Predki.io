@@ -31,6 +31,7 @@ export const PersonCard = ({
   const [avatarHovered, setAvatarHovered] = useState(false);
   const [bodyHovered, setBodyHovered] = useState(false);
   const style = handlePersonSelection ? { border: 'solid 1px #d048b6' } : null;
+  const borderClassName = personData.sex === 'Мужской' ? 'male' : 'female';
 
   const handleBodyClick = () => {
     if (handlePersonSelection) {
@@ -106,6 +107,7 @@ export const PersonCard = ({
             {' ' + personData.nativeCity}
           </a>
         </div>
+        <hr className={borderClassName} />
       </div>
       {selected ? (
         <ul className="list-group list-group-horizontal choose-relative">
