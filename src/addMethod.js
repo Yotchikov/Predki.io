@@ -77,10 +77,11 @@ const add = async (newPerson, relativeId, relationship, people, families) => {
           // Создадим новую семью с супругом-relative и супругом-newPerson
           await families.doc(newFamilyId).set({
             [relativeStatus]: relativeId,
-            [newPersonStatus]: [newPersonId],
+            [newPersonStatus]: newPersonId,
             [relativeParents]: parentFamily.empty
               ? null
               : parentFamily.docs[0].id,
+            children: [],
           });
         }
         // Если у родственника уже есть своя семья
@@ -118,7 +119,6 @@ const add = async (newPerson, relativeId, relationship, people, families) => {
 
           // Если родительской семьи у relative нет
           if (!parentFamily) {
-
             // Создаем новую родительскую семью
             await families.doc(newFamilyId).set({
               [newPersonStatus]: newPersonId,

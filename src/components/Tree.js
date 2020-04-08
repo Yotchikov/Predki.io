@@ -18,7 +18,6 @@ export const Tree = ({
           from={fam.data().husband}
           to={fam.data().husbandFamily}
           borderColor="#d048b6"
-          borderWidth={2}
           within="tree"
           delay={true}
           zIndex={-50}
@@ -28,7 +27,6 @@ export const Tree = ({
           to={fam.data().wifeFamily}
           fromAnchor={fam.data().husbandFamily ? '50 33' : '50 50'}
           borderColor="#d048b6"
-          borderWidth={2}
           within="tree"
           delay={true}
           zIndex={-50}
@@ -37,7 +35,6 @@ export const Tree = ({
           from={fam.data().husband}
           to={fam.data().wife}
           borderColor="#d048b6"
-          borderWidth={2}
           within="tree"
           delay={true}
           zIndex={0}
@@ -50,7 +47,6 @@ export const Tree = ({
                 from={fam.id}
                 to={child}
                 borderColor="#d048b6"
-                borderWidth={2}
                 within="tree"
                 delay={true}
                 zIndex={0}
@@ -303,7 +299,7 @@ export const Tree = ({
     const maxDepth = Math.min(...depths);
 
     return renderedFamilies.map((fam, i) => (
-      <div style={{ marginTop: 305 * (depths[i] - maxDepth) + 'px' }}>
+      <div style={{ marginTop: 370 * (depths[i] - maxDepth) + 'px' }}>
         {fam}
       </div>
     ));

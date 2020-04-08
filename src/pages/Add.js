@@ -179,6 +179,7 @@ export const Add = ({ person }) => {
             <input
               type="text"
               className="form-control"
+              name="nativeCity"
               id="nativeCity"
               placeholder="Город"
               value={nativeCity}
