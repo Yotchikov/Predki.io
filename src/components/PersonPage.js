@@ -39,33 +39,31 @@ export const PersonPage = ({ person, clickOutside }) => {
                 <strong>ФИО:</strong>
                 {name}
               </li>
+              {birthDate === '  ' ? null : (
+                <li>
+                  <strong>
+                    Родил{personData.sex === 'Мужской' ? 'ся' : 'ась'}:
+                  </strong>
+                  {birthDate}
+                </li>
+              )}
+              {deathDate === '  ' ? null : (
+                <li>
+                  <strong>
+                    Умер{personData.sex === 'Мужской' ? '' : 'ла'}:
+                  </strong>
+                  {deathDate}
+                </li>
+              )}
+              {personData.nativeCity === '' ? null : (
+                <li>
+                  <strong>Родной город:</strong>
+                  {personData.nativeCity}
+                </li>
+              )}
               <li>
-                {birthDate === '  ' ? null : (
-                  <>
-                    <strong>
-                      Родил{personData.sex === 'Мужской' ? 'ся' : 'ась'}:
-                    </strong>
-                    {birthDate}
-                  </>
-                )}
-              </li>
-              <li>
-                {deathDate === '  ' ? null : (
-                  <>
-                    <strong>
-                      Умер{personData.sex === 'Мужской' ? '' : 'ла'}:
-                    </strong>
-                    {deathDate}
-                  </>
-                )}
-              </li>
-              <li>
-                {personData.nativeCity === '' ? null : (
-                  <>
-                    <strong>Родной город:</strong>
-                    {personData.nativeCity}
-                  </>
-                )}
+                <strong>Биография:</strong>
+                {personData.bio ? personData.bio : <i>Биография отсутствует</i>}
               </li>
             </ul>
           </div>

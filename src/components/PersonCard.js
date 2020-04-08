@@ -74,7 +74,7 @@ export const PersonCard = ({
           onMouseLeave={() => setAvatarHovered(false)}
         >
           <img
-            src={nouser}
+            src={personData.photo ? personData.photo : nouser}
             style={
               handlePersonSelection
                 ? null
