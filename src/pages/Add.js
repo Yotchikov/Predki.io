@@ -31,6 +31,7 @@ export const Add = ({ person }) => {
         break;
       case 'lastName':
         setLastName(value);
+        break;
       case 'birthday':
         setBirthday(value);
         break;
@@ -193,7 +194,6 @@ export const Add = ({ person }) => {
                   value="Мужской"
                   name="sex"
                   id="male"
-                  value={sex}
                   onChange={handleInput}
                   defaultChecked
                 />
@@ -207,7 +207,6 @@ export const Add = ({ person }) => {
                   value="Женский"
                   name="sex"
                   id="female"
-                  value={sex}
                   onChange={handleInput}
                 />
                 <label className="form-check-label" htmlFor="female">
