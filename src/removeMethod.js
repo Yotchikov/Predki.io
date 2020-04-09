@@ -24,6 +24,7 @@ const remove = async (personId, currentUserId) => {
         children: firebase.firestore.FieldValue.arrayRemove(personId),
       });
       await people.doc(personId).delete();
+      window.location.reload();
     }
     // Иначе будем работать с его семьей
     else {
@@ -58,6 +59,7 @@ const remove = async (personId, currentUserId) => {
 
           // Удаляем person-а
           await people.doc(personId).delete();
+          window.location.reload();
         }
       }
       // Если второго супруга нет
@@ -127,6 +129,7 @@ const remove = async (personId, currentUserId) => {
           // Удаляем нашу семью и person-а
           await families.doc(familyDoc.id).delete();
           await people.doc(personId).delete();
+          window.location.reload();
         }
       }
     }

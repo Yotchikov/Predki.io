@@ -115,7 +115,6 @@ export const PersonCard = ({
                 className="btn btn-trash"
                 onClick={async () => {
                   await remove(person.id, currentUser.uid);
-                  window.location.reload();
                 }}
               >
                 <i className="fa fa-trash" aria-hidden="true"></i>
