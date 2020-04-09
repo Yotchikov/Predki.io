@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { SelectDate } from './SelectDate';
+import app from '../base';
 
-export const EditPerson = ({ person, handleClose }) => {
+export const EditPerson = ({ userId, person, handleClose }) => {
   const [firstName, setFirstName] = useState(
     person ? person.data().firstName : ''
   );
@@ -83,9 +84,45 @@ export const EditPerson = ({ person, handleClose }) => {
     }
   };
 
+  const handleEdit = async (event) => {
+    event.preventDefault();
+
+    const db = app.firestore();
+
+    try {
+      await db
+        .collection('users')
+        .doc(userId)
+        .collection('people')
+        .doc(person.id)
+        .update({
+          firstName,
+          secondName,
+          lastName,
+          birthDate: {
+            day: birthday,
+            month: birthmonth,
+            year: birthyear,
+          },
+          deathDate: {
+            day: deathday,
+            month: deathmonth,
+            year: deathyear,
+          },
+          sex,
+          nativeCity,
+          bio,
+        });
+    } catch (error) {
+      alert('Изменение не удалось');
+    }
+
+    handleClose();
+  };
+
   return (
     <div className="info-page-container">
-      <form className="edit" autoComplete={false}>
+      <form className="edit" autoComplete={false} onSubmit={handleEdit}>
         <div className="form-row">
           <div className="col d-flex align-items-center">
             <h4 className="mb-0">Редактирование профиля</h4>
@@ -228,7 +265,7 @@ export const EditPerson = ({ person, handleClose }) => {
         </div>
         <div className="mt-4">
           <button type="submit" className="btn btn-submit">
-            Добавить
+            Изменить
           </button>
         </div>
       </form>

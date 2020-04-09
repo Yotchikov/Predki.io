@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import '../style/person.scss';
 import nouser from '../img/nouser.png';
 import { PersonPage } from './PersonPage';
 import ReactDOM from 'react-dom';
 import { EditPerson } from './EditPerson';
+import { AuthContext } from '../context/Auth';
 
 export const PersonCard = ({
   person,
@@ -11,6 +12,8 @@ export const PersonCard = ({
   selected = false,
   bannedRoles,
 }) => {
+  const { currentUser } = useContext(AuthContext);
+
   const personData = person.data();
 
   const birthDate = personData.birthDate
@@ -61,7 +64,11 @@ export const PersonCard = ({
   useEffect(() => {
     ReactDOM.render(
       showEdit ? (
-        <EditPerson person={person} handleClose={() => setShowEdit(false)} />
+        <EditPerson
+          userId={currentUser.uid}
+          person={person}
+          handleClose={() => setShowEdit(false)}
+        />
       ) : null,
       document.getElementById('info-container')
     );
@@ -133,6 +140,7 @@ export const PersonCard = ({
                 href={
                   'https://www.google.ru/maps/search/' + personData.nativeCity
                 }
+                target="_blank"
               >
                 <i className="fa fa-map-marker" aria-hidden="true"></i>
                 {' ' + personData.nativeCity}
