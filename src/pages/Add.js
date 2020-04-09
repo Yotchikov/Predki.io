@@ -110,7 +110,7 @@ export const Add = ({ person }) => {
 
   return (
     <div className="form-wrapper">
-      <form className="add" onSubmit={handleAdd} autoComplete="nope">
+      <form className="add" onSubmit={handleAdd} autoComplete={false}>
         <div className="form-row">
           <div className="col form-group">
             <label htmlFor="lastName">Фамилия</label>

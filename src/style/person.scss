@@ -136,7 +136,8 @@
 
 /*PERSON PAGE*/
 
-.person-page-container {
+.info-page-container {
+  cursor: pointer;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 400;
   width: 100%;
@@ -150,6 +151,7 @@
 }
 
 .person-page {
+  cursor: default;
   background-color: $bg-light-color;
   border-radius: 0.25rem;
   box-shadow: 0 1px 20px 0 rgba(0, 0, 0, 0.1);

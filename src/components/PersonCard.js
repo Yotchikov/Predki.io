@@ -3,6 +3,7 @@ import '../style/person.scss';
 import nouser from '../img/nouser.png';
 import { PersonPage } from './PersonPage';
 import ReactDOM from 'react-dom';
+import { EditPerson } from './EditPerson';
 
 export const PersonCard = ({
   person,
@@ -32,6 +33,7 @@ export const PersonCard = ({
   const [avatarHovered, setAvatarHovered] = useState(false);
   const [bodyHovered, setBodyHovered] = useState(false);
   const [showFull, setShowFull] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
   const style = handlePersonSelection ? { border: 'solid 1px #d048b6' } : null;
   const borderClassName = personData.sex === 'Мужской' ? 'male' : 'female';
 
@@ -55,6 +57,15 @@ export const PersonCard = ({
       }
     }
   };
+
+  useEffect(() => {
+    ReactDOM.render(
+      showEdit ? (
+        <EditPerson person={person} handleClose={() => setShowEdit(false)} />
+      ) : null,
+      document.getElementById('info-container')
+    );
+  }, [showEdit]);
 
   useEffect(() => {
     ReactDOM.render(
@@ -86,7 +97,10 @@ export const PersonCard = ({
           />
           {handlePersonSelection ? null : (
             <div className="buttons">
-              <button className="btn btn-edit">
+              <button
+                className="btn btn-edit"
+                onClick={() => setShowEdit(true)}
+              >
                 <i className="fa fa-pencil" aria-hidden="true"></i>
               </button>
               <button className="btn btn-trash">

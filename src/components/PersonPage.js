@@ -23,7 +23,7 @@ export const PersonPage = ({ person, clickOutside }) => {
     personData.deathDate.year;
 
   return (
-    <div class="person-page-container">
+    <div class="info-page-container">
       <div
         className="position-absolute w-100 h-100"
         onClick={clickOutside}

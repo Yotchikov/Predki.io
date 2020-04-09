@@ -7,53 +7,65 @@ const oddMonths = [
   'Июля',
   'Августа',
   'Октября',
-  'Декабря'
+  'Декабря',
 ];
 const evenMonths = ['Апреля', 'Июня', 'Сентября', 'Ноября'];
 
-export const SelectDate = ({ personDay, personMonth, personYear, required, typeOfDate }) => {
+export const SelectDate = ({
+  personDay,
+  personMonth,
+  personYear,
+  required,
+  typeOfDate,
+}) => {
   const [day, setDay] = useState(personDay);
   const [month, setMonth] = useState(personMonth);
   const [year, setYear] = useState(personYear);
 
   const [dayOptions, setDayOptions] = useState(
-    [...Array(31).keys()].map(i => <option key={i + 1}>{i + 1}</option>)
+    [...Array(31).keys()].map((i) => <option key={i + 1}>{i + 1}</option>)
   );
 
   const [daySelectStyle, setDaySelectStyle] = useState({
-    color: '#6c757d'
+    color: personDay ? '#d0d7e1' : '#6c757d',
   });
   const [monthSelectStyle, setMonthSelectStyle] = useState({
-    color: '#6c757d'
+    color: personMonth ? '#d0d7e1' : '#6c757d',
   });
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     switch (event.target.name) {
       case typeOfDate + 'day':
         setDay(event.target.value);
         setDaySelectStyle({
-          color: '#d0d7e1'
+          color: '#d0d7e1',
         });
         break;
       case typeOfDate + 'month':
         setMonth(event.target.value);
         setMonthSelectStyle({
-          color: '#d0d7e1'
+          color: '#d0d7e1',
         });
         if (event.target.value === 'Февраля') {
           setDayOptions(
-            [...Array(29).keys()].map(i => <option key={i + 1}>{i + 1}</option>)
+            [...Array(29).keys()].map((i) => (
+              <option key={i + 1}>{i + 1}</option>
+            ))
           );
           if (day > 29) {
             setDay(1);
           }
         } else if (oddMonths.includes(event.target.value)) {
           setDayOptions(
-            [...Array(31).keys()].map(i => <option key={i + 1}>{i + 1}</option>)
+            [...Array(31).keys()].map((i) => (
+              <option key={i + 1}>{i + 1}</option>
+            ))
           );
         } else if (evenMonths.includes(event.target.value)) {
           setDayOptions(
-            [...Array(30).keys()].map(i => <option key={i + 1}>{i + 1}</option>)
+            [...Array(30).keys()].map((i) => (
+              <option key={i + 1}>{i + 1}</option>
+            ))
           );
           if (day > 30) {
             setDay(1);

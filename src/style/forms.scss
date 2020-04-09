@@ -11,7 +11,9 @@
 
 .login,
 .signup,
-.add {
+.add,
+.edit {
+  cursor: default;
   padding: 1rem;
   background-color: $bg-light-color;
   border-radius: 0.25rem;
@@ -63,10 +65,10 @@ ul.sex-choose input:checked + label {
 
 .btn-submit {
   color: $text-color;
-  background-color: $main-color;
+  background-color: $main-light-color;
   font-weight: 600;
   &:hover {
-    background-color: #7428a3;
+    background-color: $main-color;
     color: $text-color;
   }
   &:focus {
@@ -76,8 +78,31 @@ ul.sex-choose input:checked + label {
 
 .hint {
   color: #6c757d;
+  &:hover {
+    color: $text-color;
+  }
 }
 
-a.hint:hover {
-  color: var(--text-color);
+hr.heading {
+  border: none;
+  height: 1px;
+  background-color: #2b3553;;
+  color: #2b3553;;
+}
+
+.btn-close {
+  color: $text-color;
+  background-color: transparent;
+  border: none;
+  font-size: 2rem;
+  font-weight: 600;
+  float: right;
+  padding: 0;
+  &:hover {
+    color: $main-light-color;
+    box-shadow: none;
+  }
+  &:focus {
+    box-shadow: none;
+  }
 }
