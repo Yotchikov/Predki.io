@@ -5,6 +5,7 @@ import { PersonPage } from './PersonPage';
 import ReactDOM from 'react-dom';
 import { EditPerson } from './EditPerson';
 import { AuthContext } from '../context/Auth';
+import remove from '../removeMethod';
 
 export const PersonCard = ({
   person,
@@ -110,7 +111,13 @@ export const PersonCard = ({
               >
                 <i className="fa fa-pencil" aria-hidden="true"></i>
               </button>
-              <button className="btn btn-trash">
+              <button
+                className="btn btn-trash"
+                onClick={async () => {
+                  await remove(person.id, currentUser.uid);
+                  window.location.reload();
+                }}
+              >
                 <i className="fa fa-trash" aria-hidden="true"></i>
               </button>
             </div>

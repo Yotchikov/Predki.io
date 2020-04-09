@@ -85,8 +85,6 @@ export const EditPerson = ({ userId, person, handleClose }) => {
   };
 
   const handleEdit = async (event) => {
-    event.preventDefault();
-
     const db = app.firestore();
 
     try {
@@ -100,14 +98,14 @@ export const EditPerson = ({ userId, person, handleClose }) => {
           secondName,
           lastName,
           birthDate: {
-            day: birthday,
-            month: birthmonth,
-            year: birthyear,
+            day: event.target.elements.birthday.value,
+            month: event.target.elements.birthmonth.value,
+            year: event.target.elements.birthyear.value,
           },
           deathDate: {
-            day: deathday,
-            month: deathmonth,
-            year: deathyear,
+            day: event.target.elements.deathday.value,
+            month: event.target.elements.deathmonth.value,
+            year: event.target.elements.deathyear.value,
           },
           sex,
           nativeCity,
@@ -116,8 +114,6 @@ export const EditPerson = ({ userId, person, handleClose }) => {
     } catch (error) {
       alert('Изменение не удалось');
     }
-
-    handleClose();
   };
 
   return (

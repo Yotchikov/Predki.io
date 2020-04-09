@@ -9,18 +9,20 @@ export const PersonPage = ({ person, clickOutside }) => {
     personData.secondName +
     ' ' +
     personData.lastName;
-  const birthDate =
-    personData.birthDate.day +
-    ' ' +
-    personData.birthDate.month +
-    ' ' +
-    personData.birthDate.year;
-  const deathDate =
-    personData.deathDate.day +
-    ' ' +
-    personData.deathDate.month +
-    ' ' +
-    personData.deathDate.year;
+  const birthDate = personData.birthDate
+    ? personData.birthDate.day +
+      ' ' +
+      personData.birthDate.month +
+      ' ' +
+      personData.birthDate.year
+    : '  ';
+  const deathDate = personData.deathDate
+    ? personData.deathDate.day +
+      ' ' +
+      personData.deathDate.month +
+      ' ' +
+      personData.deathDate.year
+    : '  ';
 
   return (
     <div class="info-page-container">
@@ -28,7 +30,7 @@ export const PersonPage = ({ person, clickOutside }) => {
         className="position-absolute w-100 h-100"
         onClick={clickOutside}
       ></div>
-      <div className="person-page">
+      <div className="person-page container">
         <div className="row">
           <div className="col-3">
             <img src={nouser} />
