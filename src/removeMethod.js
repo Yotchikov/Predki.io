@@ -96,7 +96,7 @@ const remove = async (personId, currentUserId) => {
           }
           // Иначе, если есть дети
           else {
-            // Если их больше одного, т.е. окажутся оторванные братья/сестры
+            // Если их больше одного, т.е. окажутся оторванные братья/сестры, или вообще нет детей, т.е. он один в дереве
             if (familyDoc.data().children.length !== 1) {
               alert('Удаление человека невозможно: разрыв родственных связей');
             }
@@ -123,13 +123,13 @@ const remove = async (personId, currentUserId) => {
                   children: [],
                 });
               }
+
+              // Удаляем нашу семью и person-а
+              await families.doc(familyDoc.id).delete();
+              await people.doc(personId).delete();
+              window.location.reload();
             }
           }
-
-          // Удаляем нашу семью и person-а
-          await families.doc(familyDoc.id).delete();
-          await people.doc(personId).delete();
-          window.location.reload();
         }
       }
     }
