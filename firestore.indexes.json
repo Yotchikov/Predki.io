@@ -1,0 +1,19 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "families",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        {
+          "fieldPath": "husband",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "wife",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
