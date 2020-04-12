@@ -2,6 +2,7 @@ import React from 'react';
 import nouser from '../img/nouser.png';
 
 export const PersonPage = ({ person, clickOutside }) => {
+  console.log(person.id);
   const personData = person.data();
   const name =
     personData.firstName +
@@ -33,7 +34,7 @@ export const PersonPage = ({ person, clickOutside }) => {
       <div className="person-page container">
         <div className="row">
           <div className="col-3">
-            <img src={nouser} />
+            <img src={personData.photo ? personData.photo : nouser} />
           </div>
           <div className="col-9">
             <ul className="person-features">

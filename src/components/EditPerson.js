@@ -85,6 +85,8 @@ export const EditPerson = ({ userId, person, handleClose }) => {
   };
 
   const handleEdit = async (event) => {
+    event.preventDefault();
+
     const db = app.firestore();
 
     try {
@@ -111,6 +113,8 @@ export const EditPerson = ({ userId, person, handleClose }) => {
           nativeCity,
           bio,
         });
+
+        window.location.reload();
     } catch (error) {
       alert('Изменение не удалось');
     }
@@ -242,10 +246,10 @@ export const EditPerson = ({ userId, person, handleClose }) => {
             </ul>
           </div>
           <div className="col-5 form-group">
-            <label htmlFor="photo">Фотография</label>
-            <label className="form-control">
+            <label htmlFor="photo" style={{color: 'grey'}}>Фотография (временно не работает)</label>
+            <label className="form-control" style={{color: 'grey'}}>
               Выбрать файл
-              <input name="photo" type="file" hidden />
+              <input name="photo" type="file" hidden disabled />
             </label>
           </div>
         </div>

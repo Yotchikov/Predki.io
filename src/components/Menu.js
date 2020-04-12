@@ -3,7 +3,7 @@ import app from '../base';
 import '../style/menu.scss';
 
 export const Menu = ({ currentPage }) => {
-  const checkPage = page => currentPage === page;
+  const checkPage = (page) => currentPage === page;
   return (
     <div>
       <div className="menu">
@@ -19,7 +19,7 @@ export const Menu = ({ currentPage }) => {
             {checkPage('/add') ? 'Назад' : 'Добавить человека'}
           </div>
         </a>
-        <a href="/share">
+        {/*<a href="/share">
           <div className="fixed-part">
             <ion-icon name="share-social-sharp"></ion-icon>
           </div>
@@ -30,7 +30,7 @@ export const Menu = ({ currentPage }) => {
             <ion-icon name="cog"></ion-icon>
           </div>
           <div className="slide-out-part">Настройки</div>
-        </a>
+            </a>*/}
         <a href="/login" onClick={() => app.auth().signOut()}>
           <div className="fixed-part">
             <ion-icon name="exit"></ion-icon>

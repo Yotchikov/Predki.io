@@ -5,7 +5,7 @@ import { SelectDate } from '../components/SelectDate';
 
 export const SignUp = ({ history }) => {
   const handleSignUp = useCallback(
-    async event => {
+    async (event) => {
       event.preventDefault();
 
       const {
@@ -19,7 +19,7 @@ export const SignUp = ({ history }) => {
         birthmonth,
         birthyear,
         nativeCity,
-        sex
+        sex,
       } = event.target.elements;
 
       if (password.value !== confirmPassword.value) {
@@ -31,7 +31,7 @@ export const SignUp = ({ history }) => {
           await app
             .auth()
             .createUserWithEmailAndPassword(email.value, password.value)
-            .then(resp => {
+            .then((resp) => {
               return app
                 .firestore()
                 .collection('users')
@@ -43,10 +43,10 @@ export const SignUp = ({ history }) => {
                   birthDate: {
                     day: birthday.value,
                     month: birthmonth.value,
-                    year: birthyear.value
+                    year: birthyear.value,
                   },
                   nativeCity: nativeCity.value,
-                  sex: sex.value
+                  sex: sex.value,
                 })
                 .then(() => {
                   const newUserId = app
@@ -69,10 +69,15 @@ export const SignUp = ({ history }) => {
                       birthDate: {
                         day: birthday.value,
                         month: birthmonth.value,
-                        year: birthyear.value
+                        year: birthyear.value,
+                      },
+                      deathDate: {
+                        day: '',
+                        month: '',
+                        year: ''
                       },
                       nativeCity: nativeCity.value,
-                      sex: sex.value
+                      sex: sex.value,
                     });
                   const newFamilyId =
                     '_' +
@@ -90,7 +95,7 @@ export const SignUp = ({ history }) => {
                     .doc(newFamilyId)
                     .set({
                       [sex.value === 'Мужской' ? 'husband' : 'wife']: newUserId,
-                      children: []
+                      children: [],
                     });
                 });
             });
@@ -180,7 +185,13 @@ export const SignUp = ({ history }) => {
         <div className="form-row">
           <div className="col-7 form-group">
             <label htmlFor="birthday">Дата рождения</label>
-            <SelectDate required={true} typeOfDate="birth" />
+            <SelectDate
+              personDay={''}
+              personMonth={''}
+              personYear={''}
+              required={true}
+              typeOfDate="birth"
+            />
           </div>
           <div className="col-4 form-group">
             <label htmlFor="nativeCity">Место рождения</label>
@@ -218,7 +229,7 @@ export const SignUp = ({ history }) => {
         </div>
         <div className="mt-3">
           <button type="submit" className="btn btn-submit">
-            Регистрирация
+            Регистрация
           </button>
           <small className="ml-3">
             <a className="hint" href="/login">
